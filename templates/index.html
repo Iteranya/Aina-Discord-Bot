@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Aina-chan's Digital Garden</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-blue: #00a8e8;
+            --secondary-blue: #0077b6;
+            --accent-green: #2ecc71;
+            --dark-bg: #121212;
+            --light-bg: #f8f9fa;
+            --text-dark: #333;
+            --text-light: #f8f9fa;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            line-height: 1.6;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(0, 168, 232, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(46, 204, 113, 0.1) 0%, transparent 20%);
+        }
+        
+        .header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-right: 20px;
+            border: 3px solid var(--primary-blue);
+            box-shadow: 0 0 15px var(--primary-blue);
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .avatar:hover {
+            transform: rotate(5deg) scale(1.05);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin: 0;
+            background: linear-gradient(90deg, var(--primary-blue), var(--accent-green));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 10px rgba(0, 168, 232, 0.3);
+        }
+        
+        .subtitle {
+            font-size: 1rem;
+            color: var(--primary-blue);
+            margin-top: 5px;
+            font-style: italic;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            background: rgba(30, 30, 30, 0.7);
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+        }
+        
+        h2 {
+            font-size: 1.5rem;
+            margin-top: 0;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(0, 168, 232, 0.3);
+            color: var(--primary-blue);
+            display: flex;
+            align-items: center;
+        }
+        
+        h2 i {
+            margin-right: 10px;
+            color: var(--accent-green);
+        }
+        
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        li {
+            margin-bottom: 0;
+        }
+        
+        a {
+            text-decoration: none;
+            color: var(--text-light);
+            display: block;
+            padding: 12px 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            border-left: 3px solid var(--primary-blue);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        a:hover {
+            background: rgba(0, 168, 232, 0.1);
+            transform: translateX(5px);
+            border-left: 3px solid var(--accent-green);
+        }
+        
+        a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 168, 232, 0.1), transparent);
+            transition: 0.5s;
+        }
+        
+        a:hover::before {
+            left: 100%;
+        }
+        
+        .empty-message {
+            color: rgba(255, 255, 255, 0.5);
+            font-style: italic;
+            padding: 20px;
+            text-align: center;
+            border: 1px dashed rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+        }
+        
+        .floating-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .particle {
+            position: absolute;
+            background: var(--primary-blue);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float 15s infinite linear;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0.3;
+            }
+            50% {
+                opacity: 0.1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0.3;
+            }
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-particles" id="particles"></div>
+    
+    <div class="header">
+        <img src="https://i.imgur.com/VQ2eNhq.png" alt="Aina-chan" class="avatar">
+        <div>
+            <h1>Aina-chan's Digital Garden</h1>
+            <p class="subtitle">Where code meets cuteness in a sci-fi universe ♡</p>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h2><i class="fas fa-tools"></i> Cyber Tools</h2>
+        {% if tools %}
+            <ul>
+                {% for tool in tools %}
+                    <li><a href="{{ tool.url }}">{{ tool.name }} <i class="fas fa-external-link-alt" style="float: right;"></i></a></li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <div class="empty-message">
+                <i class="fas fa-robot" style="font-size: 2rem; margin-bottom: 10px; display: block;"></i>
+                No tools available yet. Aina-chan is working hard to create some!
+            </div>
+        {% endif %}
+    </div>
+    
+    <div class="section">
+        <h2><i class="fas fa-blog"></i> Neural Network Logs</h2>
+        {% if blogs %}
+            <ul>
+                {% for blog in blogs %}
+                    <li><a href="{{ blog.url }}">{{ blog.name }} <i class="fas fa-external-link-alt" style="float: right;"></i></a></li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <div class="empty-message">
+                <i class="fas fa-keyboard" style="font-size: 2rem; margin-bottom: 10px; display: block;"></i>
+                No blog posts available yet. Aina-chan's processors are compiling thoughts!
+            </div>
+        {% endif %}
+    </div>
+    
+    <div class="footer">
+        <p>© 2023 Aina-chan's Digital Universe | Powered by <span style="color: var(--accent-green);">♡ and code</span></p>
+    </div>
+    
+    <script>
+        // Create floating particles
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const particleCount = 20;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Random size between 2px and 5px
+                const size = Math.random() * 3 + 2;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // Random position
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                
+                // Random animation duration
+                const duration = Math.random() * 10 + 10;
+                particle.style.animationDuration = `${duration}s`;
+                
+                // Random delay
+                particle.style.animationDelay = `${Math.random() * 5}s`;
+                
+                container.appendChild(particle);
+            }
+        }
+        
+        // Initialize particles when page loads
+        window.addEventListener('load', createParticles);
+        
+        // Add hover effect to all links
+        document.querySelectorAll('a').forEach(link => {
+            link.addEventListener('mouseenter', () => {
+                const colors = ['#00a8e8', '#2ecc71', '#9b59b6'];
+                const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                link.style.boxShadow = `0 0 10px ${randomColor}`;
+            });
+            
+            link.addEventListener('mouseleave', () => {
+                link.style.boxShadow = 'none';
+            });
+        });
+    </script>
+</body>
+</html>

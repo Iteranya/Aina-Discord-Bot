@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text String Converter | Sci-Fi Anime Tool</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #00c9a7;
+            --secondary: #4b86b4;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --accent: #845ec2;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--dark);
+            color: var(--light);
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(0, 201, 167, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(75, 134, 180, 0.1) 0%, transparent 20%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+        }
+        
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 3rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .logo img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary);
+            box-shadow: 0 0 15px var(--primary);
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 10px rgba(0, 201, 167, 0.3);
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            position: relative;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .input-section, .output-section {
+            background: rgba(33, 37, 41, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 201, 167, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .input-section::before, .output-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 201, 167, 0.1) 0%, transparent 70%);
+            z-index: -1;
+            animation: rotate 20s linear infinite;
+        }
+        
+        .output-section::before {
+            background: radial-gradient(circle, rgba(75, 134, 180, 0.1) 0%, transparent 70%);
+            animation-direction: reverse;
+        }
+        
+        h2 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        h2 i {
+            color: var(--accent);
+        }
+        
+        textarea {
+            width: 100%;
+            min-height: 300px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--secondary);
+            border-radius: 10px;
+            padding: 1rem;
+            color: var(--light);
+            font-size: 1rem;
+            resize: vertical;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(0, 201, 167, 0.3);
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        button {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--light);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 201, 167, 0.3);
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 201, 167, 0.4);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        button.secondary {
+            background: rgba(75, 134, 180, 0.2);
+            border: 1px solid var(--secondary);
+        }
+        
+        button.secondary:hover {
+            background: rgba(75, 134, 180, 0.3);
+        }
+        
+        .output-container {
+            position: relative;
+        }
+        
+        .copy-notification {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            background: var(--primary);
+            color: var(--dark);
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .copy-notification.show {
+            opacity: 1;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: var(--secondary);
+        }
+        
+        .floating-elements {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .floating-element {
+            position: absolute;
+            background: rgba(0, 201, 167, 0.1);
+            border-radius: 50%;
+            filter: blur(1px);
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            color: var(--secondary);
+            font-size: 0.9rem;
+        }
+        
+        .neon-border {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 15px;
+            pointer-events: none;
+            box-shadow: 
+                0 0 5px var(--primary),
+                0 0 10px var(--primary),
+                0 0 20px var(--primary),
+                inset 0 0 5px var(--primary);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .input-section:hover .neon-border,
+        .output-section:hover .neon-border {
+            opacity: 0.3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <img src="https://i.imgur.com/VQ2eNhq.jpeg" alt="Aina-chan's Avatar">
+                <div class="logo-text">Text String Converter</div>
+            </div>
+            <div class="tagline">
+                Transform your text into a single string with ease!
+            </div>
+        </header>
+        
+        <div class="floating-elements">
+            <div class="floating-element" style="width: 100px; height: 100px; top: 20%; left: 5%;"></div>
+            <div class="floating-element" style="width: 150px; height: 150px; top: 60%; left: 80%;"></div>
+            <div class="floating-element" style="width: 70px; height: 70px; top: 30%; left: 70%;"></div>
+            <div class="floating-element" style="width: 120px; height: 120px; top: 80%; left: 20%;"></div>
+        </div>
+        
+        <div class="main-content">
+            <div class="input-section">
+                <div class="neon-border"></div>
+                <h2><i class="fas fa-keyboard"></i> Input Text</h2>
+                <textarea id="inputText" placeholder="Enter or paste your text here..."></textarea>
+                <div class="button-group">
+                    <button id="convertBtn"><i class="fas fa-magic"></i> Convert</button>
+                    <button id="clearBtn" class="secondary"><i class="fas fa-broom"></i> Clear</button>
+                </div>
+                <div class="stats">
+                    <div>Characters: <span id="charCount">0</span></div>
+                    <div>Words: <span id="wordCount">0</span></div>
+                    <div>Lines: <span id="lineCount">0</span></div>
+                </div>
+            </div>
+            
+            <div class="output-section">
+                <div class="neon-border"></div>
+                <h2><i class="fas fa-code"></i> Output String</h2>
+                <div class="output-container">
+                    <div class="copy-notification">Copied to clipboard!</div>
+                    <textarea id="outputText" readonly placeholder="Your converted string will appear here..."></textarea>
+                </div>
+                <div class="button-group">
+                    <button id="copyBtn"><i class="far fa-copy"></i> Copy</button>
+                </div>
+                <div class="stats">
+                    <div>Escaped Characters: <span id="escapedCount">0</span></div>
+                    <div>Output Length: <span id="outputLength">0</span></div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>© 2023 Text String Converter | Sci-Fi Anime Inspired Tool</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputText = document.getElementById('inputText');
+            const outputText = document.getElementById('outputText');
+            const convertBtn = document.getElementById('convertBtn');
+            const clearBtn = document.getElementById('clearBtn');
+            const copyBtn = document.getElementById('copyBtn');
+            const copyNotification = document.querySelector('.copy-notification');
+            
+            const charCount = document.getElementById('charCount');
+            const wordCount = document.getElementById('wordCount');
+            const lineCount = document.getElementById('lineCount');
+            const escapedCount = document.getElementById('escapedCount');
+            const outputLength = document.getElementById('outputLength');
+            
+            // Update stats
+            function updateStats() {
+                const text = inputText.value;
+                charCount.textContent = text.length;
+                wordCount.textContent = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
+                lineCount.textContent = text === '' ? 0 : text.split('\n').length;
+            }
+            
+            // Escape special characters
+            function escapeString(str) {
+                return str
+                    .replace(/\\/g, '\\\\')
+                    .replace(/'/g, "\\'")
+                    .replace(/"/g, '\\"')
+                    .replace(/\n/g, '\\n')
+                    .replace(/\r/g, '\\r')
+                    .replace(/\t/g, '\\t')
+                    .replace(/\f/g, '\\f')
+                    .replace(/\v/g, '\\v');
+            }
+            
+            // Count escaped characters
+            function countEscaped(str) {
+                const escapeChars = ['\\', "'", '"', '\n', '\r', '\t', '\f', '\v', '\b'];
+                let count = 0;
+                
+                for (let char of str) {
+                    if (escapeChars.includes(char)) {
+                        count++;
+                    }
+                }
+                
+                return count;
+            }
+            
+            // Convert text to single string
+            convertBtn.addEventListener('click', function() {
+                const text = inputText.value;
+                const escapedText = escapeString(text);
+                outputText.value = escapedText;
+                
+                escapedCount.textContent = countEscaped(text);
+                outputLength.textContent = escapedText.length;
+            });
+            
+            // Clear all text
+            clearBtn.addEventListener('click', function() {
+                inputText.value = '';
+                outputText.value = '';
+                updateStats();
+                escapedCount.textContent = '0';
+                outputLength.textContent = '0';
+            });
+            
+            // Copy to clipboard
+            copyBtn.addEventListener('click', function() {
+                if (outputText.value) {
+                    outputText.select();
+                    document.execCommand('copy');
+                    
+                    // Show notification
+                    copyNotification.classList.add('show');
+                    setTimeout(() => {
+                        copyNotification.classList.remove('show');
+                    }, 2000);
+                }
+            });
+            
+            // Update stats on input
+            inputText.addEventListener('input', updateStats);
+            
+            // Initialize stats
+            updateStats();
+        });
+    </script>
+</body>
+</html>

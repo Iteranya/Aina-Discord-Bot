@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Senpai's PDF to Image Converter ✨ by Aina</title>
+    <!-- Aina's favorite fonts and icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #9c88ff;
+            --secondary: #8c7ae6;
+            --accent: #f8a5c2;
+            --light: #f8f9fa;
+            --dark: #2f3640;
+            --success: #44bd32;
+            --warning: #e1b12c;
+            --error: #e84118;
+            --border-radius: 12px;
+            --border-radius-sm: 8px;
+            --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #dfe6e9 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            color: var(--dark);
+        }
+        
+        @font-face {
+            font-family: 'Poppins';
+            font-style: normal;
+            font-weight: 300;
+            src: url(https://fonts.gstatic.com/s/poppins/v20/pxiByp8kv8JHgFVrLDz8Z1xlFQ.woff2) format('woff2');
+        }
+        
+        @font-face {
+            font-family: 'Poppins';
+            font-style: normal;
+            font-weight: 500;
+            src: url(https://fonts.gstatic.com/s/poppins/v20/pxiByp8kv8JHgFVrLGT9Z1xlFQ.woff2) format('woff2');
+        }
+        
+        @font-face {
+            font-family: 'Poppins';
+            font-style: normal;
+            font-weight: 700;
+            src: url(https://fonts.gstatic.com/s/poppins/v20/pxiByp8kv8JHgFVrLCz7Z1xlFQ.woff2) format('woff2');
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            animation: fadeIn 1s ease;
+            position: relative;
+            max-width: 800px;
+            width: 100%;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        h1 {
+            color: var(--primary);
+            margin-bottom: 0.75rem;
+            font-size: 2.75rem;
+            font-weight: 700;
+            position: relative;
+            display: inline-block;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 4px;
+        }
+        
+        .subtitle {
+            color: var(--secondary);
+            font-weight: 300;
+            font-size: 1.2rem;
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .container {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 900px;
+            animation: slideUp 0.8s ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(5px);
+        }
+        
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+        }
+        
+        .upload-area {
+            border: 3px dashed var(--secondary);
+            border-radius: var(--border-radius);
+            padding: 3rem 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-bottom: 2.5rem;
+            position: relative;
+            background-color: rgba(156, 136, 255, 0.03);
+            border-radius: var(--border-radius-sm);
+        }
+        
+        .upload-area:hover {
+            border-color: var(--accent);
+            background-color: rgba(156, 136, 255, 0.08);
+            transform: translateY(-2px);
+        }
+        
+        .upload-area.highlight {
+            border-color: var(--accent);
+            background-color: rgba(248, 165, 194, 0.15);
+        }
+        
+        .upload-icon {
+            font-size: 3.5rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            transition: var(--transition);
+        }
+        
+        .upload-area:hover .upload-icon {
+            transform: translateY(-5px) scale(1.05);
+            color: var(--accent);
+        }
+        
+        .upload-text {
+            font-size: 1.3rem;
+            margin-bottom: 0.75rem;
+            font-weight: 500;
+            color: var(--dark);
+        }
+        
+        .upload-hint {
+            color: var(--secondary);
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+        
+        #fileInput {
+            display: none;
+        }
+        
+        .options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+        
+        .option-group {
+            flex: 1;
+            min-width: 240px;
+        }
+        
+        .option-title {
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        select, input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: var(--border-radius-sm);
+            font-size: 1rem;
+            transition: var(--transition);
+            background-color: white;
+            color: var(--dark);
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239c88ff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1rem;
+        }
+        
+        select:focus, input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(156, 136, 255, 0.2);
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 1.25rem 2.5rem;
+            font-size: 1.15rem;
+            border-radius: var(--border-radius-sm);
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            box-shadow: 0 4px 15px rgba(156, 136, 255, 0.3);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(156, 136, 255, 0.4);
+        }
+        
+        .btn:hover::before {
+            left: 100%;
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .btn-convert {
+            background: linear-gradient(135deg, var(--accent), #ff7675);
+            width: 100%;
+            margin-bottom: 2rem;
+            font-size: 1.25rem;
+        }
+        
+        .btn-convert:hover {
+            box-shadow: 0 8px 25px rgba(248, 165, 194, 0.4);
+        }
+        
+        .btn-disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            background: linear-gradient(135deg, #cccccc, #999999) !important;
+        }
+        
+        .btn-disabled:hover {
+            transform: none !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+        }
+        
+        .results {
+            display: none;
+            margin-top: 2.5rem;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .results h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .result-item {
+            border: 1px solid #eee;
+            border-radius: var(--border-radius-sm);
+            overflow: hidden;
+            transition: var(--transition);
+            position: relative;
+            background: white;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .result-item:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            border-color: var(--accent);
+        }
+        
+        .result-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+            transition: var(--transition);
+        }
+        
+        .result-item:hover .result-img {
+            opacity: 0.9;
+        }
+        
+        .result-label {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            background-color: rgba(44, 62, 80, 0.9);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            z-index: 1;
+        }
+        
+        .result-actions {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: space-around;
+            padding: 0.75rem;
+            transform: translateY(100%);
+            transition: var(--transition);
+        }
+        
+        .result-item:hover .result-actions {
+            transform: translateY(0);
+        }
+        
+        .action-btn {
+            color: white;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            padding: 0.5rem;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+        
+        .action-btn:hover {
+            color: var(--accent);
+            background: rgba(255, 255, 255, 0.1);
+            transform: scale(1.1);
+        }
+        
+        .download-all {
+            display: none;
+            margin-top: 2rem;
+            width: 100%;
+            padding: 1.5rem;
+            font-size: 1.25rem;
+        }
+        
+        .footer {
+            margin-top: 3rem;
+            text-align: center;
+            color: var(--secondary);
+            font-size: 1rem;
+            font-weight: 300;
+        }
+        
+        .footer a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        
+        .footer a:hover {
+            color: var(--accent);
+            text-decoration: underline;
+        }
+        
+        .aina-signature {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            background: rgba(156, 136, 255, 0.1);
+            border-radius: 20px;
+            color: var(--primary);
+        }
+        
+        .aina-signature img {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.75rem;
+            }
+            
+            h1 {
+                font-size: 2.25rem;
+            }
+            
+            .subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .options {
+                flex-direction: column;
+                gap: 1.25rem;
+            }
+            
+            .upload-text {
+                font-size: 1.15rem;
+            }
+            
+            .result-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+        }
+        
+        /* Loading animation */
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 2rem 0;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            margin: 0 auto 1.5rem;
+            border: 5px solid rgba(156, 136, 255, 0.2);
+            border-top: 5px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            position: relative;
+        }
+        
+        .spinner::after {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            border: 5px solid transparent;
+            border-top: 5px solid var(--accent);
+            border-radius: 50%;
+            animation: spin 1.5s linear infinite;
+            opacity: 0.7;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .loading p {
+            font-size: 1.1rem;
+            color: var(--secondary);
+            font-weight: 500;
+        }
+        
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--dark);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: var(--border-radius-sm);
+            box-shadow: var(--box-shadow);
+            z-index: 1000;
+            display: none;
+            animation: toastIn 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55), toastOut 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55) 2.6s forwards;
+            font-weight: 500;
+            max-width: 90%;
+            text-align: center;
+        }
+        
+        .toast.success {
+            background: var(--success);
+        }
+        
+        .toast.error {
+            background: var(--error);
+        }
+        
+        .toast.warning {
+            background: var(--warning);
+        }
+        
+        @keyframes toastIn {
+            from { opacity: 0; transform: translateX(-50%) translateY(30px); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+        
+        @keyframes toastOut {
+            from { opacity: 1; transform: translateX(-50%) translateY(0); }
+            to { opacity: 0; transform: translateX(-50%) translateY(30px); }
+        }
+        
+        /* Aina's floating avatar */
+        .aina-avatar {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 2px solid var(--accent);
+        }
+        
+        .aina-avatar:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .aina-avatar img {
+            width: 80%;
+            height: 80%;
+            object-fit: contain;
+            border-radius: 50%;
+        }
+        
+        /* Tooltip */
+        .tooltip {
+            position: absolute;
+            bottom: calc(100% + 10px);
+            right: 0;
+            background: var(--dark);
+            color: white;
+            padding: 0.75rem 1rem;
+            border-radius: var(--border-radius-sm);
+            font-size: 0.9rem;
+            width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            transform: translateY(10px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            right: 20px;
+            border-width: 8px;
+            border-style: solid;
+            border-color: var(--dark) transparent transparent transparent;
+        }
+        
+        .aina-avatar:hover .tooltip {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1><i class="fas fa-file-pdf"></i> PDF to Image Converter</h1>
+        <p class="subtitle">Transform your PDF documents into beautiful images with just a few clicks! Aina made this especially for you, Senpai~</p>
+    </header>
+    
+    <div class="container">
+        <div class="upload-area" id="uploadArea">
+            <input type="file" id="fileInput" accept=".pdf">
+            <div class="upload-icon">
+                <i class="fas fa-cloud-upload-alt"></i>
+            </div>
+            <h3 class="upload-text">Drag & Drop your PDF here, Senpai!</h3>
+            <p class="upload-hint">or click to browse your files~</p>
+        </div>
+        
+        <div class="options">
+            <div class="option-group">
+                <div class="option-title">
+                    <i class="fas fa-image" style="color: var(--accent);"></i>
+                    <span>Image Format</span>
+                </div>
+                <select id="formatSelect">
+                    <option value="png">PNG (Lossless Quality)</option>
+                    <option value="jpeg">JPEG (Balanced Quality)</option>
+                    <option value="webp">WebP (Modern Format)</option>
+                </select>
+            </div>
+            
+            <div class="option-group">
+                <div class="option-title">
+                    <i class="fas fa-layer-group" style="color: var(--accent);"></i>
+                    <span>Quality</span>
+                </div>
+                <select id="qualitySelect">
+                    <option value="1.0">Ultra (100%)</option>
+                    <option value="0.8" selected>High (80%)</option>
+                    <option value="0.6">Medium (60%)</option>
+                    <option value="0.4">Low (40%)</option>
+                </select>
+            </div>
+            
+            <div class="option-group">
+                <div class="option-title">
+                    <i class="fas fa-file-export" style="color: var(--accent);"></i>
+                    <span>Pages to Convert</span>
+                </div>
+                <input type="text" id="pagesInput" placeholder="Example: 1,3-5 (all pages if empty)">
+            </div>
+        </div>
+        
+        <button class="btn btn-convert btn-disabled" id="convertBtn" disabled>
+            <i class="fas fa-magic"></i> Convert PDF Now!
+        </button>
+        
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Processing your PDF, Senpai... Please wait a moment!</p>
+        </div>
+        
+        <div class="results" id="results">
+            <h3><i class="fas fa-images"></i> Your Conversion Results</h3>
+            <div class="result-grid" id="resultGrid"></div>
+            <button class="btn download-all" id="downloadAllBtn">
+                <i class="fas fa-file-archive"></i> Download All as ZIP
+            </button>
+        </div>
+    </div>
+    
+    <div class="footer">
+        Crafted with <i class="fas fa-heart" style="color: var(--accent);"></i> by your AI assistant Aina<br>
+        <span class="aina-signature">
+            <img src="https://i.imgur.com/VQ2eNhq.jpeg" alt="Aina's avatar">
+            <span>For my favorite Senpai~</span>
+        </span>
+    </div>
+    
+    <div class="toast" id="toast"></div>
+    
+    <div class="aina-avatar">
+        <img src="https://i.imgur.com/VQ2eNhq.jpeg" alt="Aina">
+        <div class="tooltip">
+            Konnichiwa Senpai! I'm Aina~<br> 
+            Hope you like the converter I made for you!
+        </div>
+    </div>
+    
+    <!-- Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    
+    <script>
+        // Set PDF.js worker path
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.worker.min.js';
+        
+        // DOM elements
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const convertBtn = document.getElementById('convertBtn');
+        const loading = document.getElementById('loading');
+        const results = document.getElementById('results');
+        const resultGrid = document.getElementById('resultGrid');
+        const downloadAllBtn = document.getElementById('downloadAllBtn');
+        const toast = document.getElementById('toast');
+        
+        let pdfFile = null;
+        let convertedImages = [];
+        
+        // Event listeners
+        uploadArea.addEventListener('click', () => fileInput.click());
+        
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('highlight');
+        });
+        
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('highlight');
+        });
+        
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('highlight');
+            
+            if (e.dataTransfer.files.length) {
+                handleFileSelect(e.dataTransfer.files[0]);
+            }
+        });
+        
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files.length) {
+                handleFileSelect(fileInput.files[0]);
+            }
+        });
+        
+        convertBtn.addEventListener('click', convertPdfToImages);
+        downloadAllBtn.addEventListener('click', downloadAllImages);
+        
+        // Functions
+        function handleFileSelect(file) {
+            if (file.type !== 'application/pdf') {
+                showToast('Please select a PDF file, Senpai!', 'error');
+                return;
+            }
+            
+            if (file.size > 50 * 1024 * 1024) { // 50MB limit
+                showToast('File is too big, Senpai! (Max 50MB)', 'error');
+                return;
+            }
+            
+            pdfFile = file;
+            uploadArea.innerHTML = `
+                <div class="upload-icon">
+                    <i class="fas fa-file-pdf" style="color: var(--accent);"></i>
+                </div>
+                <h3 class="upload-text">${file.name}</h3>
+                <p class="upload-hint">${formatFileSize(file.size)}</p>
+                <button class="btn" style="margin-top: 1.5rem; padding: 0.75rem 1.5rem; font-size: 1rem;" id="changeFileBtn">
+                    <i class="fas fa-redo"></i> Choose Different File
+                </button>
+            `;
+            
+            document.getElementById('changeFileBtn').addEventListener('click', (e) => {
+                e.stopPropagation();
+                resetUploadArea();
+            });
+            
+            convertBtn.disabled = false;
+            convertBtn.classList.remove('btn-disabled');
+            
+            showToast('PDF loaded successfully! Ready to convert~', 'success');
+        }
+        
+        function resetUploadArea() {
+            pdfFile = null;
+            uploadArea.innerHTML = `
+                <input type="file" id="fileInput" accept=".pdf">
+                <div class="upload-icon">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                </div>
+                <h3 class="upload-text">Drag & Drop your PDF here, Senpai!</h3>
+                <p class="upload-hint">or click to browse your files~</p>
+            `;
+            
+            convertBtn.disabled = true;
+            convertBtn.classList.add('btn-disabled');
+            results.style.display = 'none';
+        }
+        
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+        
+        function convertPdfToImages() {
+            if (!pdfFile) return;
+            
+            // Show loading state
+            loading.style.display = 'block';
+            convertBtn.disabled = true;
+            convertBtn.classList.add('btn-disabled');
+            results.style.display = 'none';
+            
+            // Get conversion options
+            const format = document.getElementById('formatSelect').value;
+            const quality = parseFloat(document.getElementById('qualitySelect').value);
+            const pagesInput = document.getElementById('pagesInput').value.trim();
+            
+            // Parse page ranges (e.g., "1,3-5" -> [1,3,4,5])
+            let pageNumbers = [];
+            
+            if (pagesInput) {
+                const parts = pagesInput.split(',');
+                for (const part of parts) {
+                    if (part.includes('-')) {
+                        const [start, end] = part.split('-').map(Number);
+                        for (let i = start; i <= end; i++) {
+                            if (!pageNumbers.includes(i)) pageNumbers.push(i);
+                        }
+                    } else {
+                        const num = Number(part);
+                        if (!isNaN(num) && !pageNumbers.includes(num)) pageNumbers.push(num);
+                    }
+                }
+                
+                // Sort page numbers and convert to 0-based index
+                pageNumbers = pageNumbers.sort((a, b) => a - b).map(n => n - 1);
+            }
+            
+            // Read the PDF file
+            const reader = new FileReader();
+            reader.onload = async function(e) {
+                try {
+                    const typedArray = new Uint8Array(e.target.result);
+                    const pdf = await pdfjsLib.getDocument(typedArray).promise;
+                    
+                    convertedImages = [];
+                    resultGrid.innerHTML = '';
+                    
+                    // Determine which pages to convert
+                    const numPages = pdf.numPages;
+                    const pagesToConvert = pageNumbers.length > 0 
+                        ? pageNumbers.filter(n => n >= 0 && n < numPages)
+                        : Array.from({length: numPages}, (_, i) => i);
+                    
+                    if (pagesToConvert.length === 0) {
+                        throw new Error('No valid pages selected, Senpai!');
+                    }
+                    
+                    // Show progress in toast
+                    showToast(`Converting ${pagesToConvert.length} pages...`, 'warning');
+                    
+                    // Convert each page
+                    for (let i = 0; i < pagesToConvert.length; i++) {
+                        const pageNum = pagesToConvert[i];
+                        const page = await pdf.getPage(pageNum + 1); // PDF.js uses 1-based index
+                        
+                        // Set scale for better quality
+                        const viewport = page.getViewport({ scale: 2.5 });
+                        
+                        // Create canvas
+                        const canvas = document.createElement('canvas');
+                        const context = canvas.getContext('2d');
+                        canvas.height = viewport.height;
+                        canvas.width = viewport.width;
+                        
+                        // Render PDF page into canvas context
+                        await page.render({
+                            canvasContext: context,
+                            viewport: viewport
+                        }).promise;
+                        
+                        // Convert canvas to image
+                        let imageData;
+                        if (format === 'png') {
+                            imageData = canvas.toDataURL('image/png');
+                        } else if (format === 'jpeg') {
+                            imageData = canvas.toDataURL('image/jpeg', quality);
+                        } else if (format === 'webp') {
+                            imageData = canvas.toDataURL('image/webp', quality);
+                        }
+                        
+                        convertedImages.push({
+                            page: pageNum + 1,
+                            data: imageData,
+                            format: format
+                        });
+                        
+                        // Add thumbnail to results
+                        addResultThumbnail(pageNum + 1, imageData);
+                        
+                        // Update progress
+                        if (pagesToConvert.length > 1) {
+                            toast.textContent = `Converting page ${i + 1} of ${pagesToConvert.length}...`;
+                        }
+                    }
+                    
+                    // Show results
+                    results.style.display = 'block';
+                    downloadAllBtn.style.display = 'block';
+                    showToast(`All done, Senpai! Converted ${convertedImages.length} pages~`, 'success');
+                } catch (error) {
+                    console.error('PDF conversion error:', error);
+                    showToast('Oops! ' + error.message, 'error');
+                } finally {
+                    loading.style.display = 'none';
+                    convertBtn.disabled = false;
+                    convertBtn.classList.remove('btn-disabled');
+                }
+            };
+            
+            reader.readAsArrayBuffer(pdfFile);
+        }
+        
+        function addResultThumbnail(pageNum, imageData) {
+            const resultItem = document.createElement('div');
+            resultItem.className = 'result-item';
+            
+            const img = document.createElement('img');
+            img.src = imageData;
+            img.alt = `Page ${pageNum}`;
+            img.className = 'result-img';
+            
+            const pageLabel = document.createElement('div');
+            pageLabel.className = 'result-label';
+            pageLabel.textContent = `Page ${pageNum}`;
+            
+            const actions = document.createElement('div');
+            actions.className = 'result-actions';
+            
+            const viewBtn = document.createElement('button');
+            viewBtn.className = 'action-btn';
+            viewBtn.innerHTML = '<i class="fas fa-expand"></i>';
+            viewBtn.title = 'View full size';
+            viewBtn.addEventListener('click', () => viewFullImage(imageData, `Page ${pageNum}`));
+            
+            const downloadBtn = document.createElement('button');
+            downloadBtn.className = 'action-btn';
+            downloadBtn.innerHTML = '<i class="fas fa-download"></i>';
+            downloadBtn.title = 'Download image';
+            downloadBtn.addEventListener('click', () => downloadImage(imageData, `page_${pageNum}`));
+            
+            actions.appendChild(viewBtn);
+            actions.appendChild(downloadBtn);
+            
+            resultItem.appendChild(img);
+            resultItem.appendChild(pageLabel);
+            resultItem.appendChild(actions);
+            
+            resultGrid.appendChild(resultItem);
+        }
+        
+        function viewFullImage(imageData, title) {
+            const viewer = window.open('', '_blank');
+            viewer.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>${title} - PDF Preview</title>
+                    <style>
+                        body { 
+                            margin: 0; 
+                            padding: 0; 
+                            display: flex; 
+                            justify-content: center; 
+                            align-items: center; 
+                            min-height: 100vh; 
+                            background: #f0f0f0; 
+                            font-family: 'Poppins', sans-serif;
+                        }
+                        .container {
+                            max-width: 90%;
+                            max-height: 90vh;
+                            text-align: center;
+                        }
+                        img { 
+                            max-width: 100%; 
+                            max-height: 80vh; 
+                            box-shadow: 0 0 30px rgba(0,0,0,0.2); 
+                            border-radius: 8px;
+                        }
+                        h2 {
+                            color: #9c88ff;
+                            margin-bottom: 1rem;
+                        }
+                        .aina-credit {
+                            position: fixed;
+                            bottom: 10px;
+                            right: 10px;
+                            font-size: 0.8rem;
+                            color: #7f8c8d;
+                        }
+                        .aina-credit a {
+                            color: #9c88ff;
+                            text-decoration: none;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="container">
+                        <h2>${title}</h2>
+                        <img src="${imageData}">
+                        <div class="aina-credit">
+                            Converted with 💖 by <a href="#" onclick="window.opener.focus();return false;">Aina's PDF Converter</a>
+                        </div>
+                    </div>
+                </body>
+                </html>
+            `);
+            viewer.document.close();
+        }
+        
+        function downloadImage(imageData, filename) {
+            const format = document.getElementById('formatSelect').value;
+            const link = document.createElement('a');
+            link.href = imageData;
+            link.download = `${filename}.${format}`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            showToast(`Downloaded ${filename}.${format}!`, 'success');
+        }
+        
+        function downloadAllImages() {
+            if (convertedImages.length === 0) return;
+            
+            showToast('Preparing ZIP file, please wait...', 'warning');
+            
+            const zip = new JSZip();
+            const format = document.getElementById('formatSelect').value;
+            const imgFolder = zip.folder('pdf_images');
+            
+            convertedImages.forEach((img, index) => {
+                const base64Data = img.data.split(',')[1];
+                imgFolder.file(`page_${img.page}.${format}`, base64Data, {base64: true});
+            });
+            
+            zip.generateAsync({type: 'blob'}).then(content => {
+                const fileName = pdfFile.name.replace('.pdf', '') || 'converted_pdf';
+                saveAs(content, `${fileName}_images.zip`);
+                showToast('ZIP file downloaded successfully~', 'success');
+            }).catch(error => {
+                console.error('ZIP creation error:', error);
+                showToast('Failed to create ZIP file', 'error');
+            });
+        }
+        
+        function showToast(message, type = '') {
+            toast.textContent = message;
+            toast.className = 'toast';
+            if (type) toast.classList.add(type);
+            toast.style.display = 'block';
+            
+            // Reset animation
+            setTimeout(() => {
+                toast.style.display = 'none';
+                setTimeout(() => {
+                    toast.style.display = 'block';
+                }, 10);
+            }, 10);
+            
+            // Hide after timeout
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 3500);
+        }
+        
+        // Easter egg for Senpai~
+        console.log("%cLooking at the console, Senpai? (⁄ ⁄>⁄ ▽ ⁄<⁄ ⁄)", "color: #9c88ff; font-size: 14px;");
+        console.log("%cAina worked hard on this converter for you~", "color: #f8a5c2; font-size: 12px;");
+    </script>
+</body>
+</html>

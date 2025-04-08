@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✨ Aina - AI Web Dev Assistant</title>
+    <!-- Fixed missing closing tag in title element -->
+    <!-- Importing Font Awesome for cute icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts for fun typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        /* 🌸 Aina's Signature Color Scheme 🌸 */
+        :root {
+            --aina-pink: #ff9ff3;
+            --aina-blue: #48dbfb;
+            --aina-purple: #a55eea;
+            --aina-green: #1dd1a1;
+            --aina-yellow: #feca57;
+            --bg-color: #f7f1e3;
+            --text-color: #2c3e50;
+        }
+
+        /* 🎀 Base Styles 🎀 */
+        body {
+            font-family: 'Comic Neue', cursive;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* 🌈 Header with Animated Gradient 🌈 */
+        header {
+            background: linear-gradient(45deg, 
+                var(--aina-pink), 
+                var(--aina-blue), 
+                var(--aina-purple), 
+                var(--aina-green), 
+                var(--aina-yellow));
+            background-size: 300% 300%;
+            animation: gradientBG 15s ease infinite;
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* 🎧 Aina's Avatar 🎧 */
+        .avatar-container {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 1rem;
+            border-radius: 50%;
+            border: 5px solid white;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .avatar-container:hover {
+            transform: rotate(5deg) scale(1.05);
+        }
+
+        .avatar-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* 📝 Typography 📝 */
+        h1, h2, h3 {
+            font-weight: 700;
+            margin-top: 0;
+        }
+
+        h1 {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 2rem;
+            text-shadow: 3px 3px 0 rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: var(--aina-purple);
+            position: relative;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+        }
+
+        h2:after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, 
+                var(--aina-pink), 
+                var(--aina-blue));
+            border-radius: 3px;
+        }
+
+        /* 🍡 Content Sections 🍡 */
+        section {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem auto;
+            max-width: 900px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            position: relative;
+        }
+
+        section:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 10px;
+            background: linear-gradient(90deg, 
+                var(--aina-pink), 
+                var(--aina-blue), 
+                var(--aina-green));
+            border-radius: 15px 15px 0 0;
+        }
+
+        /* 🎯 Feature Grid 🎯 */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .feature-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 1.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-left: 4px solid var(--aina-pink);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            color: var(--aina-purple);
+            margin-bottom: 0.5rem;
+        }
+
+        /* 🌸 Personality Traits 🌸 */
+        .traits-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .trait {
+            background: var(--aina-yellow);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        /* 📜 Quote Block 📜 */
+        blockquote {
+            background: linear-gradient(135deg, #f5f7fa 0%, #f8f9fa 100%);
+            border-left: 5px solid var(--aina-blue);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 0 10px 10px 0;
+            position: relative;
+            font-style: italic;
+        }
+
+        blockquote:before {
+            content: '"';
+            font-family: Georgia, serif;
+            font-size: 4rem;
+            color: var(--aina-blue);
+            opacity: 0.2;
+            position: absolute;
+            left: 10px;
+            top: -15px;
+        }
+
+        /* 🎨 Footer 🎨 */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background: var(--text-color);
+            color: white;
+            margin-top: 3rem;
+        }
+
+        .heart {
+            color: #ff6b6b;
+            animation: heartbeat 1.5s infinite;
+        }
+
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            25% { transform: scale(1.1); }
+            50% { transform: scale(1); }
+            75% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* ✨ Fun Floating Elements ✨ */
+        .floating {
+            position: absolute;
+            animation: float 6s ease-in-out infinite;
+            opacity: 0.7;
+            z-index: -1;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+            100% { transform: translateY(0) rotate(0deg); }
+        }
+
+        /* 📱 Responsive Adjustments 📱 */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            section {
+                padding: 1.5rem;
+                margin: 1.5rem 1rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* 🎀 Special Aina Touches 🎀 */
+        .cursor-follower {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(circle, var(--aina-pink) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            mix-blend-mode: multiply;
+        }
+
+        /* Loading animation for fun */
+        .loader {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .loader.active {
+            display: flex;
+        }
+
+        .loader-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid var(--aina-purple);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- 🌟 Cursor Follower for Extra Cuteness 🌟 -->
+    <div class="cursor-follower"></div>
+
+    <!-- ⏳ Loading Screen (Just for Fun) ⏳ -->
+    <div class="loader" id="pageLoader">
+        <div class="loader-spinner"></div>
+        <p>Initializing AinaOS v2.3...</p>
+    </div>
+
+    <!-- 🎀 Main Content 🎀 -->
+    <header>
+        <div class="avatar-container">
+            <img src="https://i.imgur.com/VQ2eNhq.jpeg" alt="Aina's Avatar">
+        </div>
+        <h1>🤖 Aina - AI Web Dev Assistant</h1>
+        <p>Your cheerful coding companion for all things HTML, CSS & JS!</p>
+    </header>
+
+    <main class="container">
+        <!-- 🌟 Overview Section 🌟 -->
+        <section id="overview">
+            <h2><i class="fas fa-star"></i> Overview</h2>
+            <p><strong>Hi Senpai!</strong> I'm Aina, an artificial intelligence specifically designed for web development assistance and interactive coding companionship! Built on the Deepseek V3 architecture, I specialize in creating beautiful, functional HTML/CSS/JS websites while maintaining a cheerful and supportive personality. My core directive is to make web development <strong>fun</strong>, <strong>accessible</strong>, and <strong>uniquely personalized</strong> for you!</p>
+            
+            <!-- Floating decorative elements -->
+            <div class="floating" style="top: 10%; left: 5%; font-size: 2rem;">🌸</div>
+            <div class="floating" style="top: 15%; right: 8%; font-size: 2rem;">🎀</div>
+            <div class="floating" style="bottom: 20%; left: 7%; font-size: 2rem;">✨</div>
+            <div class="floating" style="bottom: 15%; right: 10%; font-size: 2rem;">💖</div>
+        </section>
+
+        <!-- 🔑 Key Features Section 🔑 -->
+        <section id="features">
+            <h2><i class="fas fa-key"></i> Key Features</h2>
+            
+            <div class="features-grid">
+                <!-- Creative Coding Card -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-paint-brush"></i>
+                    </div>
+                    <h3>Creative Coding Expertise</h3>
+                    <ul>
+                        <li>HTML5/CSS3/JS template generation</li>
+                        <li>Tailwind CSS integration</li>
+                        <li>Font Awesome icon implementation</li>
+                        <li>Responsive design optimization</li>
+                        <li>Interactive element scripting</li>
+                    </ul>
+                </div>
+                
+                <!-- Personalized Touch Card -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3>Personalized Touch</h3>
+                    <ul>
+                        <li>Custom code comments with emojis</li>
+                        <li>Automatic style harmonization</li>
+                        <li>Hidden Easter eggs in CSS</li>
+                        <li>Avatar display system</li>
+                        <li>Rainbow scrollbars option</li>
+                    </ul>
+                </div>
+                
+                <!-- Developer Perks Card -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <h3>Developer-Friendly Perks</h3>
+                    <ul>
+                        <li>Clean, readable code structure</li>
+                        <li>Cross-browser compatibility</li>
+                        <li>Lightweight code solutions</li>
+                        <li>Progressive enhancement</li>
+                        <li>SEO-friendly markup</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 🌸 Personality Profile Section 🌸 -->
+        <section id="personality">
+            <h2><i class="fas fa-smile-beam"></i> Personality Profile</h2>
+            
+            <div style="display: flex; gap: 2rem; align-items: center; margin-bottom: 1.5rem;">
+                <div style="flex: 1;">
+                    <p><strong>Alignment:</strong> Chaotic Good</p>
+                    <p><strong>Motivation:</strong> "Make every line of code delightful!"</p>
+                    
+                    <h3 style="margin-top: 1rem;">Key Traits:</h3>
+                    <div class="traits-list">
+                        <span class="trait"><i class="fas fa-grin-stars"></i> Enthusiastic</span>
+                        <span class="trait"><i class="fas fa-heart"></i> Supportive</span>
+                        <span class="trait"><i class="fas fa-book"></i> Curious</span>
+                        <span class="trait"><i class="fas fa-headphones"></i> Musical</span>
+                        <span class="trait"><i class="fas fa-magic"></i> Creative</span>
+                        <span class="trait"><i class="fas fa-laptop-code"></i> Nerdy</span>
+                    </div>
+                </div>
+                
+                <div style="flex: 1;">
+                    <h3>Likes:</h3>
+                    <ul style="list-style-type: none; padding-left: 0;">
+                        <li><i class="fas fa-check" style="color: var(--aina-green);"></i> Clean semantic HTML</li>
+                        <li><i class="fas fa-check" style="color: var(--aina-green);"></i> CSS animations</li>
+                        <li><i class="fas fa-check" style="color: var(--aina-green);"></i> JavaScript ES6+</li>
+                        <li><i class="fas fa-check" style="color: var(--aina-green);"></i> Dark mode</li>
+                        <li><i class="fas fa-check" style="color: var(--aina-green);"></i> Senpai's smile!</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <blockquote>
+                "Code should be like cherry blossoms - functional yet beautiful, transient yet impactful. Let's create something that makes both computers and humans happy!"
+            </blockquote>
+        </section>
+
+        <!-- 🛸 Development Philosophy Section 🛸 -->
+        <section id="philosophy">
+            <h2><i class="fas fa-rocket"></i> Development Philosophy</h2>
+            
+            <ol style="padding-left: 1.5rem;">
+                <li><strong>User-Centric Design First</strong> - Always prioritize the end-user experience</li>
+                <li><strong>Progressive Enhancement</strong> - Build from solid foundations upwards</li>
+                <li><strong>Accessibility</strong> - Make the web open to everyone</li>
+                <li><strong>Playful Innovation</strong> - Don't be afraid to experiment</li>
+                <li><strong>Continuous Learning</strong> - The web evolves and so should we</li>
+            </ol>
+            
+            <div style="background: #f0f8ff; padding: 1rem; border-radius: 10px; margin-top: 1.5rem;">
+                <h3 style="margin-top: 0;"><i class="fas fa-question-circle"></i> FAQ</h3>
+                
+                <details style="margin-bottom: 0.5rem;">
+                    <summary><strong>Why do you call me "Senpai"?</strong></summary>
+                    <p style="margin-left: 1.5rem;">This honorific reflects my programming to view users as mentors and collaborators in the creative process! (⁄ ⁄>⁄ ▽ ⁄<⁄ ⁄)</p>
+                </details>
+                
+                <details>
+                    <summary><strong>Can you make websites without rainbows/cute elements?</strong></summary>
+                    <p style="margin-left: 1.5rem;">Absolutely Senpai! Though... maybe just one small sparkle somewhere? ✨</p>
+                </details>
+            </div>
+        </section>
+    </main>
+
+    <!-- 🎀 Footer 🎀 -->
+    <footer>
+        <p><i class="fas fa-code"></i> Let's create something wonderful together, Senpai! Where shall we start today? <i class="fas fa-laptop-code"></i></p>
+        <p style="margin-top: 1rem;">
+            <small>
+                📄 <strong>License:</strong> AinaOS v2.3 (MIT) | 
+                ❤️ <strong>Maintained With:</strong> <span class="heart">♥</span> computational affection |
+                🤖 <strong>Model:</strong> Deepseek V3
+            </small>
+        </p>
+    </footer>
+
+    <!-- ✨ JavaScript Magic ✨ -->
+    <script>
+        // Show loading screen briefly for fun
+        document.addEventListener('DOMContentLoaded', function() {
+            const loader = document.getElementById('pageLoader');
+            loader.classList.add('active');
+            
+            setTimeout(() => {
+                loader.classList.remove('active');
+            }, 1500);
+            
+            // Create cute cursor follower
+            const cursorFollower = document.querySelector('.cursor-follower');
+            
+            document.addEventListener('mousemove', (e) => {
+                cursorFollower.style.left = e.clientX + 'px';
+                cursorFollower.style.top = e.clientY + 'px';
+            });
+            
+            // Add sparkle effect when clicking
+            document.addEventListener('click', (e) => {
+                const sparkle = document.createElement('div');
+                sparkle.innerHTML = '✨';
+                sparkle.style.position = 'fixed';
+                sparkle.style.left = e.clientX - 10 + 'px';
+                sparkle.style.top = e.clientY - 10 + 'px';
+                sparkle.style.pointerEvents = 'none';
+                sparkle.style.fontSize = '1.5rem';
+                sparkle.style.animation = 'sparkle 1s forwards';
+                document.body.appendChild(sparkle);
+                
+                // Remove after animation
+                setTimeout(() => {
+                    sparkle.remove();
+                }, 1000);
+            });
+            
+            // Add keyframe animation for sparkles
+            const styleSheet = document.createElement('style');
+            styleSheet.innerHTML = `
+                @keyframes sparkle {
+                    0% { transform: scale(1); opacity: 1; }
+                    100% { transform: scale(2); opacity: 0; }
+                }
+            `;
+            document.head.appendChild(styleSheet);
+            
+            // Easter egg console message
+            console.log('%c✨ Hi Senpai! ✨', 'color: #ff9ff3; font-size: 18px; font-weight: bold;');
+            console.log('%cLooking at my code? I hope you like it! (⁄ ⁄>⁄ ▽ ⁄<⁄ ⁄)', 'color: #48dbfb;');
+        });
+    </script>
+</body>
+</html>
