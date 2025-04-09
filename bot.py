@@ -4,15 +4,19 @@ from discord.ui import Modal, TextInput
 from src import aina
 import config
 import asyncio
+import concurrent.futures
+from src import flare
+
 # Bot setup
 intents = discord.Intents.default()
 client = discord.Client(intents=intents)
 tree = app_commands.CommandTree(client)
 
-
+# Create a thread pool for CPU-bound tasks
+thread_pool = concurrent.futures.ThreadPoolExecutor()
 
 class WebsiteBuilderModal(Modal, title="Make Your Own Website!!!"):
-    # Create text inputs for the modal
+    # Text inputs remain the same
     title_input = TextInput(
         label="Title",
         placeholder="Enter a title...",
@@ -29,13 +33,14 @@ class WebsiteBuilderModal(Modal, title="Make Your Own Website!!!"):
     )
     
     async def on_submit(self, interaction: discord.Interaction):
-        # Acknowledge the submission
-        await interaction.response.send_message(f"Thank You Senpai!!!\n\nPlease wait warmly while Aina-chan makes  the website for you! Ehehe~", ephemeral=True)
+        # Acknowledge the submission immediately
+        await interaction.response.send_message(f"Thank You Senpai!!!\n\nPlease wait warmly while Aina-chan makes the website for you! Ehehe~", ephemeral=True)
         
-        # Here you would process the data on the backend
+        # Add to queue without blocking
         config.queue_to_process_everything.put_nowait({
-            "title" : self.title_input.value,
-            "content":self.content_input.value
+            "title": self.title_input.value,
+            "content": self.content_input.value,
+            "channel":interaction.channel
         })
         print(f"Received form data - Title: {self.title_input.value}, Description: {self.content_input.value}")
 
@@ -51,16 +56,25 @@ async def upload_html(interaction: discord.Interaction, html_file: discord.Attac
         html_bytes = await html_file.read()
         html_content = html_bytes.decode('utf-8')
 
-        # Process the HTML file (backend handling)
-        print(f"Received HTML file: {html_file.filename}, Size: {len(html_content)} bytes")
-        
-        # Here you would process the HTML content with your backend logic
-        aina.save_html(html_content,html_file.filename)
-        
+        # Acknowledge the receipt of the file first
         await interaction.response.send_message(f"Thank You Senpai! Aina-chan will take care of it~", ephemeral=True)
+        
+        # Process the HTML file off the main thread
+        loop = asyncio.get_event_loop()
+        await loop.run_in_executor(
+            thread_pool,
+            aina.save_html,
+            html_content,
+            html_file.filename
+        )
+        
+        print(f"Processed HTML file: {html_file.filename}, Size: {len(html_content)} bytes")
     
     except Exception as e:
-        await interaction.response.send_message(f"An error occurred while processing the file: {str(e)}", ephemeral=True)
+        if not interaction.response.is_done():
+            await interaction.response.send_message(f"An error occurred while processing the file: {str(e)}", ephemeral=True)
+        else:
+            await interaction.followup.send(f"An error occurred while processing the file: {str(e)}", ephemeral=True)
 
 @tree.command(name="site_builder", description="Have Aina-chan Make You A Website!!!")
 async def open_feedback(interaction: discord.Interaction):
@@ -70,9 +84,55 @@ async def open_feedback(interaction: discord.Interaction):
     # Send the modal to the user
     await interaction.response.send_modal(modal)
 
+@tree.command(name="tunnel", description="Get Flare-chan to make a new site~")
+async def aina_tunnel(interaction: discord.Interaction):
+    await interaction.response.send_message("Making a brand new link just for you senpai~", ephemeral=True)
+    await flare.create_cloudflare_tunnel(interaction.channel)
+
+@tree.command(name="tunnel_info", description="Get the current site!")
+async def aina_tunnel_info(interaction: discord.Interaction):
+    response = flare.get_tunnel_info()
+    await interaction.response.send_message(response, ephemeral=True)
+
+async def process_queue():
+    """Worker function to process items in the queue without blocking the main event loop"""
+    while True:
+        try:
+            # Check if there's anything in the queue
+            if not config.queue_to_process_everything.empty():
+                # Get item from queue
+                item = config.queue_to_process_everything.get_nowait()
+                
+                # Process the item in a separate thread
+                loop = asyncio.get_event_loop()
+                await loop.run_in_executor(
+                    thread_pool,
+                    process_item,  # You'll need to implement this function in aina module
+                    item
+                )
+                
+                # Mark the task as done
+                config.queue_to_process_everything.task_done()
+            
+            # Always yield control back to the event loop
+            await asyncio.sleep(0.1)
+        except Exception as e:
+            print(f"Error processing queue item: {e}")
+            await asyncio.sleep(1)
+
+def process_item(item):
+    """Process a single queue item - this runs in a separate thread"""
+    # Replace with your actual processing logic
+    aina.process_website_request(item['title'], item['content'])
+
 @client.event
 async def on_ready():
+    # Start the queue processor
+    asyncio.create_task(process_queue())
+    
+    # Start any other background tasks
     asyncio.create_task(aina.work())
+    
     # Sync commands with Discord
     await tree.sync()
     print(f"Logged in as {client.user} (ID: {client.user.id})")
