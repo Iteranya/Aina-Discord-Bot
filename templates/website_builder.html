@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Playground | Aina's Coding Dojo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4CAF50;
+            --secondary: #2196F3;
+            --accent: #FF9800;
+            --light: #f5f9fa;
+            --dark: #263238;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--light) 0%, #e0f7fa 100%);
+            color: var(--dark);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .header {
+            display: flex;
+            align-items: center;
+            padding: 15px 30px;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 10;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary);
+            box-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
+        }
+        
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .container {
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            gap: 20px;
+            max-width: 1800px;
+            margin: 0 auto;
+        }
+        
+        .panes-container {
+            display: flex;
+            gap: 20px;
+            height: calc(100vh - 180px);
+        }
+        
+        .editor-pane, .preview-pane {
+            flex: 1;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+        }
+        
+        .editor-pane:hover, .preview-pane:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+        }
+        
+        .pane-header {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .pane-header i {
+            font-size: 1.2rem;
+        }
+        
+        .pane-content {
+            flex: 1;
+            padding: 15px;
+            overflow: auto;
+        }
+        
+        textarea {
+            width: 100%;
+            height: 100%;
+            border: none;
+            resize: none;
+            font-family: 'Fira Code', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            padding: 10px;
+            background: #fafafa;
+            border-radius: 8px;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        textarea:focus {
+            outline: none;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2), 0 0 0 2px rgba(33, 150, 243, 0.3);
+        }
+        
+        #preview {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: white;
+            border-radius: 8px;
+        }
+        
+        .generate-form {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            margin-top: 20px;
+        }
+        
+        .form-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            color: var(--secondary);
+        }
+        
+        .form-header i {
+            font-size: 1.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.3);
+            outline: none;
+        }
+        
+        .btn {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(33, 150, 243, 0.3);
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(33, 150, 243, 0.4);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .btn i {
+            font-size: 1rem;
+        }
+        
+        .floating-characters {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .character {
+            position: absolute;
+            opacity: 0.1;
+            animation: float 15s infinite linear;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(180deg);
+            }
+            100% {
+                transform: translateY(0) rotate(360deg);
+            }
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 15px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .panes-container {
+                flex-direction: column;
+                height: auto;
+            }
+            
+            .editor-pane, .preview-pane {
+                min-height: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-characters">
+        <div class="character" style="top: 10%; left: 5%; font-size: 30px;">(>^.^)></div>
+        <div class="character" style="top: 30%; left: 80%; font-size: 40px;">(◕‿◕✿)</div>
+        <div class="character" style="top: 70%; left: 15%; font-size: 25px;">(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧</div>
+        <div class="character" style="top: 50%; left: 70%; font-size: 35px;">(づ｡◕‿‿◕｡)づ</div>
+    </div>
+    
+    <header class="header">
+        <div class="logo">
+            <img src="https://i.imgur.com/VQ2eNhq.jpeg" alt="Aina-chan" class="logo-img">
+            <h1 class="logo-text">Aina's HTML Playground</h1>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="panes-container">
+            <div class="editor-pane">
+                <div class="pane-header">
+                    <i class="fas fa-code"></i>
+                    <h2>Editor</h2>
+                </div>
+                <div class="pane-content">
+                    <textarea id="html-code" placeholder="Write your HTML here, senpai~ (◕‿◕✿)"></textarea>
+                </div>
+            </div>
+            
+            <div class="preview-pane">
+                <div class="pane-header">
+                    <i class="fas fa-eye"></i>
+                    <h2>Preview</h2>
+                </div>
+                <div class="pane-content">
+                    <iframe id="preview"></iframe>
+                </div>
+            </div>
+        </div>
+        
+        <div class="generate-form">
+            <div class="form-header">
+                <i class="fas fa-magic"></i>
+                <h2>Website Generator</h2>
+            </div>
+            <form action="/generate-website" method="post">
+                <div class="form-group">
+                    <label for="content">Describe your dream website, onii-chan~</label>
+                    <textarea name="content" id="content" class="form-control" rows="4" required placeholder="I want a kawaii landing page with pink buttons and cat ears..."></textarea>
+                </div>
+                <button type="submit" class="btn">
+                    <i class="fas fa-wand-magic-sparkles"></i> Generate Website
+                </button>
+            </form>
+        </div>
+    </div>
+    
+    <footer class="footer">
+        <p>Made with ♥ by Aina-chan | HTML Playground v1.0</p>
+    </footer>
+    
+    <script>
+        const htmlCode = document.getElementById('html-code');
+        const preview = document.getElementById('preview');
+        
+        // Initialize with a cute welcome message
+        const welcomeHTML = `
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome to Aina's Playground!</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(135deg, #f5f9fa 0%, #e0f7fa 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+        .welcome-box {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+        }
+        h1 {
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+        p {
+            color: #666;
+            line-height: 1.6;
+        }
+        .kawaii {
+            font-size: 2rem;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="welcome-box">
+        <h1>Konnichiwa! (◕‿◕✿)</h1>
+        <div class="kawaii">(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧</div>
+        <p>Start coding in the editor and see your creation come to life here!</p>
+        <p>Or describe your dream website below and let me generate it for you~</p>
+    </div>
+</body>
+</html>
+        `;
+        
+        htmlCode.value = welcomeHTML;
+        
+        // Initialize preview
+        function updatePreview() {
+            const previewDoc = preview.contentDocument || preview.contentWindow.document;
+            previewDoc.open();
+            previewDoc.write(htmlCode.value);
+            previewDoc.close();
+        }
+        
+        htmlCode.addEventListener('input', updatePreview);
+        updatePreview();
+        
+        // Form submission with streaming
+        document.querySelector('form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const form = this;
+            const button = form.querySelector('button');
+            const originalButtonText = button.innerHTML;
+            
+            // Show loading state
+            button.disabled = true;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
+            
+            const formData = new FormData(form);
+            const websiteDescription = formData.get('content');
+            
+            // Combine content
+            const combinedContent = `${htmlCode.value}\n\n${websiteDescription}`;
+            formData.set('content', combinedContent);
+            
+            try {
+                const response = await fetch('/generate-website', {
+                    method: 'POST',
+                    body: formData
+                });
+        
+                const data = await response.json();
+                if (data.id) {
+                    // Connect to the streaming endpoint
+                    const eventSource = new EventSource(`/stream/${data.id}`);
+                    let generatedHtml = '';
+                    
+                    eventSource.onmessage = function(event) {
+                        const eventData = JSON.parse(event.data);
+                        
+                        if (eventData.html) {
+                            generatedHtml += eventData.html;
+                            htmlCode.value = generatedHtml;
+                            updatePreview();
+                        }
+                        
+                        if (eventData.done) {
+                            eventSource.close();
+                            button.disabled = false;
+                            button.innerHTML = originalButtonText;
+                            
+                            // Show completion effect
+                            const completionEffect = document.createElement('div');
+                            completionEffect.innerHTML = '✧･ﾟ: *✧･ﾟ:* Generation Complete! *:･ﾟ✧*:･ﾟ✧';
+                            completionEffect.style.position = 'fixed';
+                            completionEffect.style.bottom = '20px';
+                            completionEffect.style.left = '50%';
+                            completionEffect.style.transform = 'translateX(-50%)';
+                            completionEffect.style.backgroundColor = 'rgba(76, 175, 80, 0.9)';
+                            completionEffect.style.color = 'white';
+                            completionEffect.style.padding = '10px 20px';
+                            completionEffect.style.borderRadius = '20px';
+                            completionEffect.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.2)';
+                            completionEffect.style.animation = 'fadeInOut 3s ease-out';
+                            completionEffect.style.zIndex = '1000';
+                            
+                            document.body.appendChild(completionEffect);
+                            
+                            setTimeout(() => {
+                                completionEffect.style.animation = 'fadeOut 0.5s ease-out';
+                                setTimeout(() => completionEffect.remove(), 500);
+                            }, 2500);
+                        }
+                    };
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                button.disabled = false;
+                button.innerHTML = originalButtonText;
+                
+                // Show error message
+                const errorMessage = document.createElement('div');
+                errorMessage.textContent = 'Yabai! Something went wrong (╥﹏╥)';
+                errorMessage.style.position = 'fixed';
+                errorMessage.style.bottom = '20px';
+                errorMessage.style.left = '50%';
+                errorMessage.style.transform = 'translateX(-50%)';
+                errorMessage.style.backgroundColor = 'rgba(244, 67, 54, 0.9)';
+                errorMessage.style.color = 'white';
+                errorMessage.style.padding = '10px 20px';
+                errorMessage.style.borderRadius = '20px';
+                errorMessage.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.2)';
+                errorMessage.style.zIndex = '1000';
+                
+                document.body.appendChild(errorMessage);
+                
+                setTimeout(() => {
+                    errorMessage.style.opacity = '0';
+                    setTimeout(() => errorMessage.remove(), 500);
+                }, 3000);
+            }
+        });
+        
+        // Add some cute floating effects
+        document.addEventListener('mousemove', function(e) {
+            const hearts = document.createElement('div');
+            hearts.innerHTML = '✿';
+            hearts.style.position = 'fixed';
+            hearts.style.left = e.clientX + 'px';
+            hearts.style.top = e.clientY + 'px';
+            hearts.style.color = `hsl(${Math.random() * 60 + 150}, 70%, 60%)`;
+            hearts.style.fontSize = Math.random() * 20 + 10 + 'px';
+            hearts.style.pointerEvents = 'none';
+            hearts.style.zIndex = '100';
+            hearts.style.transform = 'translate(-50%, -50%)';
+            hearts.style.animation = 'float-up 1s ease-out forwards';
+            
+            document.body.appendChild(hearts);
+            
+            setTimeout(() => {
+                hearts.remove();
+            }, 1000);
+        });
+        
+        // Add animation styles dynamically
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeInOut {
+                0% { opacity: 0; transform: translateX(-50%) translateY(20px); }
+                20% { opacity: 1; transform: translateX(-50%) translateY(0); }
+                80% { opacity: 1; transform: translateX(-50%) translateY(0); }
+                100% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+            }
+            @keyframes fadeOut {
+                from { opacity: 1; }
+                to { opacity: 0; }
+            }
+            @keyframes float-up {
+                to {
+                    transform: translate(-50%, -100px);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
