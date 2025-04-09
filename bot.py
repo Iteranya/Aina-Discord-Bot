@@ -85,12 +85,12 @@ async def open_feedback(interaction: discord.Interaction):
     await interaction.response.send_modal(modal)
 
 @tree.command(name="refresh_tunnel", description="Get Flare-chan to make a new site~")
-async def aina_tunnel(interaction: discord.Interaction):
+async def refresh_tunnel(interaction: discord.Interaction):
     await interaction.response.send_message("Making a brand new link just for you senpai~", ephemeral=True)
     await flare.create_cloudflare_tunnel(interaction.channel)
 
-@tree.command(name="get_tunnels", description="Get the current site!")
-async def aina_tunnel_info(interaction: discord.Interaction):
+@tree.command(name="get_tunnel", description="Get the current site!")
+async def get_tunnel(interaction: discord.Interaction):
     response = flare.get_tunnel_info()
     await interaction.response.send_message(response, ephemeral=True)
 
