@@ -239,6 +239,22 @@
         {% endif %}
     </div>
     
+    <div class="section">
+        <h2><i class="fas fa-pen-fancy"></i> Digital Drafts</h2>
+        {% if drafts %}
+            <ul>
+                {% for draft in drafts %}
+                    <li><a href="{{ draft.url }}">{{ draft.name }} <i class="fas fa-external-link-alt" style="float: right;"></i></a></li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <div class="empty-message">
+                <i class="fas fa-file-alt" style="font-size: 2rem; margin-bottom: 10px; display: block;"></i>
+                No drafts available yet. Aina-chan is sketching ideas in her digital notebook!
+            </div>
+        {% endif %}
+    </div>
+    
     <div class="footer">
         <p>© 2023 Aina-chan's Digital Universe | Powered by <span style="color: var(--accent-green);">♡ and code</span></p>
     </div>

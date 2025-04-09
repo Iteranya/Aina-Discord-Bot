@@ -1,11 +1,15 @@
 import discord
 from discord import app_commands
 from discord.ui import Modal, TextInput
-
+from src import aina
+import config
+import asyncio
 # Bot setup
 intents = discord.Intents.default()
 client = discord.Client(intents=intents)
 tree = app_commands.CommandTree(client)
+
+
 
 class WebsiteBuilderModal(Modal, title="Make Your Own Website!!!"):
     # Create text inputs for the modal
@@ -16,7 +20,7 @@ class WebsiteBuilderModal(Modal, title="Make Your Own Website!!!"):
         max_length=100
     )
     
-    description_input = TextInput(
+    content_input = TextInput(
         label="Content",
         placeholder="Tell Me All You Want About This Website~",
         required=True,
@@ -29,8 +33,11 @@ class WebsiteBuilderModal(Modal, title="Make Your Own Website!!!"):
         await interaction.response.send_message(f"Thank You Senpai!!!\n\nPlease wait warmly while Aina-chan makes  the website for you! Ehehe~", ephemeral=True)
         
         # Here you would process the data on the backend
-        # For example: save_to_database(self.title_input.value, self.description_input.value)
-        print(f"Received form data - Title: {self.title_input.value}, Description: {self.description_input.value}")
+        config.queue_to_process_everything.put_nowait({
+            "title" : self.title_input.value,
+            "content":self.content_input.value
+        })
+        print(f"Received form data - Title: {self.title_input.value}, Description: {self.content_input.value}")
 
 @tree.command(name="uploadhtml", description="Upload an HTML file")
 async def upload_html(interaction: discord.Interaction, html_file: discord.Attachment):
@@ -41,13 +48,14 @@ async def upload_html(interaction: discord.Interaction, html_file: discord.Attac
             return
             
         # Read the file content
-        html_content = await html_file.read()
-        
+        html_bytes = await html_file.read()
+        html_content = html_bytes.decode('utf-8')
+
         # Process the HTML file (backend handling)
         print(f"Received HTML file: {html_file.filename}, Size: {len(html_content)} bytes")
         
         # Here you would process the HTML content with your backend logic
-        # process_html_file(html_content)
+        aina.save_html(html_content,html_file.filename)
         
         await interaction.response.send_message(f"Thank You Senpai! Aina-chan will take care of it~", ephemeral=True)
     
@@ -64,6 +72,7 @@ async def open_feedback(interaction: discord.Interaction):
 
 @client.event
 async def on_ready():
+    asyncio.create_task(aina.work())
     # Sync commands with Discord
     await tree.sync()
     print(f"Logged in as {client.user} (ID: {client.user.id})")
@@ -71,4 +80,4 @@ async def on_ready():
 
 # Replace 'YOUR_BOT_TOKEN' with your actual bot token
 if __name__ == "__main__":
-    client.run("YOUR_BOT_TOKEN")
+    client.run(config.discord_token)
