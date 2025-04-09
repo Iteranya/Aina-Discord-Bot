@@ -53,7 +53,7 @@ For those who want websites with chat emotes:
 2. Check out the `example.env`~ It contains all the secrets required! (Keep this super, duper, secret nyaaa~)
 3. Copy the stuff in example.env into a brand new `.env` file!!!
 4. Run `start.cmd` (Or `start.sh` if Senpai uses Linux~)
-```
+
 And you're done!!! Just run `start.cmd` :3
 
 ## 🌈 Future Cuteness (Planned Features)
