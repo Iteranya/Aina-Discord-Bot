@@ -2,7 +2,6 @@
   <h1 style="color: #ff9cd7; margin: 10px 0">🌸 Aina AI Website Builder 🌸</h1>
   <img src="https://i.imgur.com/VQ2eNhq.jpeg" width="150" style="border-radius:50%;box-shadow:0 5px 15px rgba(255,156,215,0.4)">
   <p>World's Cutest Website Builder (Who Tries Really Hard!)</p>
-  <img src="https://i.imgur.com/5XwKqB3.gif" width="300">
 </div>
 
 ## � Overview
@@ -20,7 +19,8 @@ Features include:
 ## 🌸 Features That'll Make You Go "Nya~!"
 
 ### Online Website Builder
-![builder-preview](https://i.imgur.com/z7JkLp8.gif)  
+![image](https://github.com/user-attachments/assets/77c26223-f388-46c3-848c-d8a5eb4854b1)
+
 Our new **web-based editor** where you can:
 - Poke HTML elements into existence
 - Watch Aina-chan do her best~
@@ -49,9 +49,10 @@ For those who want websites with chat emotes:
 - Optional: Discord account (for extra kawaii points)
 
 ### Installation (For Self-Hosters)
-```bash
-git clone https://github.com/Iteranya/Aina-Website-Builder.git
-cd Aina-Website-Builder
+1. Clone Aina-chan from github! `git clone https://github.com/Iteranya/Aina-Website-Builder.git`
+2. Check out the `example.env`~ It contains all the secrets required! (Keep this super, duper, secret nyaaa~)
+3. Copy the stuff in example.env into a brand new `.env` file!!!
+4. Run `start.cmd` (Or `start.sh` if Senpai uses Linux~)
 ```
 And you're done!!! Just run `start.cmd` :3
 
