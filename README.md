@@ -1,8 +1,8 @@
-# Aina-chan Discord Integration
-
-<p align="center">
-  <img src="/api/placeholder/400/200" alt="Aina-chan Logo">
-</p>
+<div align="center">
+  <h1 style="color: #9c88ff; margin: 10px 0">🌟 Aina-chan Discord Integration 🌟</h1>
+  <img src="https://i.imgur.com/VQ2eNhq.jpeg" width="100" style="border-radius:50%;box-shadow:0 5px 15px rgba(156,136,255,0.3)">
+  <p>Invite Aina-chan Into Your Server!</p>
+</div>
 
 ## 🌸 Overview
 
