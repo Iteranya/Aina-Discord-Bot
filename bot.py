@@ -84,12 +84,12 @@ async def open_feedback(interaction: discord.Interaction):
     # Send the modal to the user
     await interaction.response.send_modal(modal)
 
-@tree.command(name="tunnel", description="Get Flare-chan to make a new site~")
+@tree.command(name="refresh_tunnel", description="Get Flare-chan to make a new site~")
 async def aina_tunnel(interaction: discord.Interaction):
     await interaction.response.send_message("Making a brand new link just for you senpai~", ephemeral=True)
     await flare.create_cloudflare_tunnel(interaction.channel)
 
-@tree.command(name="tunnel_info", description="Get the current site!")
+@tree.command(name="get_tunnels", description="Get the current site!")
 async def aina_tunnel_info(interaction: discord.Interaction):
     response = flare.get_tunnel_info()
     await interaction.response.send_message(response, ephemeral=True)
@@ -135,9 +135,11 @@ async def on_ready():
     
     # Sync commands with Discord
     await tree.sync()
+    await flare.create_cloudflare_tunnel(None)
     print(f"Logged in as {client.user} (ID: {client.user.id})")
     print("Bot is ready!")
 
 # Replace 'YOUR_BOT_TOKEN' with your actual bot token
 if __name__ == "__main__":
+    
     client.run(config.discord_token)
