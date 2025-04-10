@@ -9,8 +9,8 @@ CONFIG_PATH = "config.json"
 @dataclass
 class Config:
     system_note: str = "ONLY USE HTML, CSS AND JAVASCRIPT. If you want to use ICON make sure to import the library first. Try to create the best UI possible by using only HTML, CSS and JAVASCRIPT. Also, try to ellaborate as much as you can, to create something unique. ALWAYS GIVE THE RESPONSE INTO A SINGLE HTML FILE"
-    ai_endpoint: str = "https://llm.chutes.ai/v1"
-    base_llm:str= "deepseek-ai/DeepSeek-V3-0324"
+    ai_endpoint: str = "https://generativelanguage.googleapis.com/v1beta/openai/"
+    base_llm:str= "gemini-2.5-pro-exp-03-25"
     temperature:float = 0.5
     ai_key:str = ""
 
