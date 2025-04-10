@@ -3,3 +3,4 @@
 .env
 aina_tunnel_info.json
 cloudflared.exe
+config.json
