@@ -25,6 +25,7 @@
             background-image: 
                 radial-gradient(circle at 10% 20%, rgba(0, 168, 232, 0.1) 0%, transparent 20%),
                 radial-gradient(circle at 90% 80%, rgba(46, 204, 113, 0.1) 0%, transparent 20%);
+            position: relative;
         }
         
         .header {
@@ -194,10 +195,64 @@
             color: rgba(255, 255, 255, 0.5);
             font-size: 0.9rem;
         }
+
+        /* NEW: Site Builder Button */
+        .site-builder-btn {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, var(--primary-blue), var(--accent-green));
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 168, 232, 0.3);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 10;
+            text-decoration: none;
+        }
+
+        .site-builder-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 168, 232, 0.4);
+        }
+
+        .site-builder-btn i {
+            font-size: 1.2em;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .site-builder-btn {
+                position: static;
+                margin: 20px auto;
+                display: inline-flex;
+            }
+            
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .avatar {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="floating-particles" id="particles"></div>
+    
+    <!-- NEW: Site Builder Button -->
+    <a href="/site-builder" class="site-builder-btn">
+        <i class="fas fa-magic"></i> Website Builder
+    </a>
     
     <div class="header">
         <img src="https://i.imgur.com/VQ2eNhq.png" alt="Aina-chan" class="avatar">
@@ -304,6 +359,17 @@
                 link.style.boxShadow = 'none';
             });
         });
+
+        // NEW: Add pulse animation to site builder button
+        const builderBtn = document.querySelector('.site-builder-btn');
+        if (builderBtn) {
+            setInterval(() => {
+                builderBtn.style.transform = 'scale(1.02)';
+                setTimeout(() => {
+                    builderBtn.style.transform = 'scale(1)';
+                }, 300);
+            }, 5000);
+        }
     </script>
 </body>
 </html>
