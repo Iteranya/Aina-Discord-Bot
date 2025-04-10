@@ -87,6 +87,14 @@ Under the hood, Aina Website Builder utilizes:
 - File-based storage system for all generated websites
 - Cloudflare tunneling for external access
 
+## 🐛 Known Bugs and Issues
+
+This is a Solo-dev's work with minimal expertise in Javascript or Web, known bugs does exist:
+- Lack of clear error and visual feedback
+- No admin panel (yet)
+- The UI doesn't make it clear enough that for the Discord Bot to work, you need to setup the API inside the Website Builder page.
+- Doesn't show errors on screen, harder to debug.
+
 ## 🌐 Examples
 
 **Example website prompt:**
