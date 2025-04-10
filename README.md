@@ -38,7 +38,6 @@ Now featuring full Discord integration, Aina brings its website creation powers 
    - Copy `example.env` to `.env`
    - Update the values:
      ```
-     AI_TOKEN="your_ai_token_here"
      DISCORD_TOKEN="your_discord_token_here"
      ```
    - Optionally, configure the base LLM and model settings in `config.py`
@@ -56,10 +55,11 @@ These scripts will automatically:
 1. After running the start script, the local server will be running
 2. Open your browser and go to `http://localhost:5454` to view the gallery of all created websites
 3. Navigate to `http://localhost:5454/site-builder` to access the interactive website builder
-4. Enter your website description, generate, and edit in real-time!
+4. Open the settings menu in the bottom right to manage your connection settings
+5. Enter your website description, generate, and edit in real-time!
 
 ### Using the Discord Bot
-Once your bot is running and added to your Discord server, you can use the slash commands to create websites directly from Discord.
+Once your Website Builder is running the bot is now functional, you can use the slash commands to create websites directly from Discord.
 
 ## 🤖 Discord Commands
 
