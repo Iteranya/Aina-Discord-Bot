@@ -1,6 +1,6 @@
 import os
 from pathlib import Path
-from fastapi import FastAPI, Request, Form, BackgroundTasks
+from fastapi import FastAPI, Request, Form, HTTPException
 from fastapi.responses import HTMLResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -11,6 +11,7 @@ import json
 import uuid
 from fastapi.middleware.cors import CORSMiddleware
 from openai import OpenAI, AsyncOpenAI
+from pydantic import BaseModel
 
 
 app = FastAPI()
@@ -117,13 +118,22 @@ async def stream_response(generation_id: str):
     
     return StreamingResponse(event_generator(), media_type="text/event-stream")
 
+# Ahhh... Is there really no way to separate this from main.py???
+# Really doesn't look good...
+# I'll figure it out later...
 async def generate_html_stream(content, generation_id):
+    ai_config:config.Config = config.load_or_create_config()
+
+    client = OpenAI(
+        base_url=ai_config.ai_endpoint,
+        api_key=config.get_key(),
+        )
     try:
         # Create the prompt
         messages = [
             {
             "role": "system",
-            "content": "ONLY USE HTML, CSS AND JAVASCRIPT. If you want to use ICON make sure to import the library first. Try to create the best UI possible by using only HTML, CSS and JAVASCRIPT. Also, try to ellaborate as much as you can, to create something unique. ALWAYS GIVE THE RESPONSE INTO A SINGLE HTML FILE"
+            "content": ai_config.system_note
             },
             {
             "role": "user",
@@ -136,8 +146,8 @@ async def generate_html_stream(content, generation_id):
         ]
         
         # Use synchronous client with stream=True for streaming
-        stream = config.client.chat.completions.create(
-            model=config.base_llm,
+        stream = client.chat.completions.create(
+            model=ai_config.base_llm,
             messages=messages,
             stream=True
         )
@@ -173,4 +183,56 @@ def regex_html(text):
     
     return None
 
-# Note: Removed the duplicate generate_website function and the problematic llm module
+
+# Pydantic model based on your config.Config dataclass for validation and serialization
+class ConfigSchema(BaseModel):
+    system_note: str
+    ai_endpoint: str
+    base_llm: str
+    temperature: float
+    ai_key: str
+
+    class Config:
+        orm_mode = True
+
+@app.get("/config", response_model=ConfigSchema)
+async def get_config():
+    """
+    Retrieve the current configuration.
+    """
+    current_config = config.load_or_create_config()
+    return current_config
+
+@app.put("/config", response_model=ConfigSchema)
+async def update_config(config_data: ConfigSchema):
+    """
+    Update the configuration.
+    
+    Send a JSON payload with all keys. Example:
+    {
+      "system_note": "New note",
+      "ai_endpoint": "https://api.example.com/v1",
+      "base_llm": "your-model",
+      "temperature": 0.7,
+      "ai_key": "your-new-api-key"
+    }
+    """
+    try:
+        # Create a new Config instance from the Pydantic model data
+        new_config = config.Config(**config_data.dict())
+        config.save_config(new_config)
+        return new_config
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Error updating configuration: {str(e)}")
+
+@app.delete("/config/reset", response_model=ConfigSchema)
+async def reset_config():
+    """
+    Reset the configuration back to its default values.
+    """
+    try:
+        default_config = config.Config()  # Instantiated with default values in your dataclass
+        config.save_config(default_config)
+        return default_config
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error resetting configuration: {str(e)}")

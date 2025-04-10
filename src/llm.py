@@ -1,16 +1,25 @@
 import config
 import re
+from openai import OpenAI
 
 async def generate_website(task):
+
+    ai_config:config.Config = config.load_or_create_config()
+
+    client = OpenAI(
+        base_url=ai_config.ai_endpoint,
+        api_key= config.get_key(),
+        )
+
     content = task["content"]
     print(f"Generating Website~\n\n Prompt: {content}")
     
-    completion = config.client.chat.completions.create(
-    model=config.base_llm,
+    completion = client.chat.completions.create(
+    model=ai_config.base_llm,
     messages=[
         {
         "role": "system",
-        "content": "ONLY USE HTML, CSS AND JAVASCRIPT. If you want to use ICON make sure to import the library first. Try to create the best UI possible by using only HTML, CSS and JAVASCRIPT. Also, try to ellaborate as much as you can, to create something unique. ALWAYS GIVE THE RESPONSE INTO A SINGLE HTML FILE"
+        "content": ai_config.system_note
         },
         {
         "role": "user",

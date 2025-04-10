@@ -1,49 +1,28 @@
-import asyncio
-from dotenv import load_dotenv
-import os
 import json
+import os
 from dataclasses import dataclass, asdict
+from typing import Optional
 
 CONFIG_PATH = "config.json"
 
 @dataclass
 class Config:
     system_note: str = "ONLY USE HTML, CSS AND JAVASCRIPT. If you want to use ICON make sure to import the library first. Try to create the best UI possible by using only HTML, CSS and JAVASCRIPT. Also, try to ellaborate as much as you can, to create something unique. ALWAYS GIVE THE RESPONSE INTO A SINGLE HTML FILE"
-    ai_endpoint: str = "https://llm.chutes.ai/v1"
-    base_llm:str= "deepseek-ai/DeepSeek-V3-0324"
-    temperature:float = 0.5
-    ai_key:str = ""
-
-# System Setup
-
-load_dotenv()
-load_dotenv(override=True)
-discord_token:str | None = os.getenv("DISCORD_TOKEN")
-queue_to_process_everything = asyncio.Queue()
+    ai_endpoint: str = ""
+    version: str = "1.0.0"
+    max_users: int = 100
 
 def load_or_create_config(path: str = CONFIG_PATH) -> Config:
     if os.path.exists(path):
         with open(path, 'r') as f:
             data = json.load(f)
-            current_config = Config(**data)
-            current_config.ai_key = "" # Duct Tape Security... Fix In Production (Or Not, Maybe This Is Actually Secure Enough :v)
-        return current_config
+        return Config(**data)
     else:
         default_config = Config()
         save_config(default_config, path)
         print(f"No config found. Created default at {path}.")
-        default_config.ai_key = ""
         return default_config
 
-def get_key(path:str = CONFIG_PATH) -> str:
-    if os.path.exists(path):
-        with open(path, 'r') as f:
-            data = json.load(f)
-            current_config = Config(**data)
-            return current_config.ai_key 
-    else:
-        return ""
-    
 def save_config(config: Config, path: str = CONFIG_PATH) -> None:
     with open(path, 'w') as f:
         json.dump(asdict(config), f, indent=2)
