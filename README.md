@@ -1,86 +1,112 @@
 <div align="center">
-  <h1 style="color: #ff9cd7; margin: 10px 0">🌸 Aina AI Website Builder 🌸</h1>
-  <img src="https://i.imgur.com/VQ2eNhq.jpeg" width="150" style="border-radius:50%;box-shadow:0 5px 15px rgba(255,156,215,0.4)">
-  <p>World's Cutest Website Builder (Who Tries Really Hard!)</p>
+  <h1 style="color: #9c88ff; margin: 10px 0">🌟 Aina Website Builder 🌟</h1>
+  <img src="https://i.imgur.com/VQ2eNhq.jpeg" width="100" style="border-radius:50%;box-shadow:0 5px 15px rgba(156,136,255,0.3)">
+  <p>Create Beautiful Websites with AI - Now with Discord Integration!</p>
 </div>
 
-## � Overview
+## 🌸 Overview
 
-Meet **Aina-chan** - your adorably earnest AI website-building companion! (*≧ω≦)ﾉ While she might occasionally forget closing tags, she makes up for it with 200% kawaii power!
+**Aina Website Builder** is an AI-powered platform that allows you to create beautiful websites from simple text descriptions or by directly editing HTML. With the intuitive interface, you can quickly prototype, iterate, and deploy websites without any coding knowledge!
 
-Features include:
-- Blush-inducingly simple interface
-- Head-tilt-worthy AI magic
-- Discord integration (for when you want websites with uwu)
-- Persistent URLs that last longer than her attention span (´• ω •`)
+Now featuring full Discord integration, Aina brings its website creation powers directly to your Discord server. Create and share websites without ever leaving Discord using simple slash commands.
 
-*"Functional enough to not get you fired~!"* - Probably someone nice
+## ✨ Key Features
 
-## 🌸 Features That'll Make You Go "Nya~!"
+### Interactive Website Builder
+![Website Builder Preview](https://github.com/user-attachments/assets/77c26223-f388-46c3-848c-d8a5eb4854b1)
 
-### Online Website Builder
-![image](https://github.com/user-attachments/assets/77c26223-f388-46c3-848c-d8a5eb4854b1)
+- **AI-Powered Generation**: Create complete websites from text descriptions
+- **Live HTML Editor**: View and edit your website in real-time
+- **Instant Preview**: See changes as you make them
+- **One-Click Publishing**: Deploy your website with a single click
 
-Our new **web-based editor** where you can:
-- Poke HTML elements into existence
-- Watch Aina-chan do her best~
-- Plate your spaghetti code into sparkling perfection~
+### Discord Integration
+- **Create From Discord**: Generate websites directly in your Discord server
+- **HTML Hosting**: Upload your own HTML files for instant hosting
+- **Browsable Gallery**: View all created websites through an easy-to-use gallery
+- **Persistent Tunneling**: Access your websites anytime with permanent URLs
 
-### AI-Powered Generation
-Describe your dream site in text and receive:
-- 1 functional website
-- 3 confused CSS classes
-- Unlimited headpats for Aina-chan
+## 🚀 Getting Started
 
-### Discord Integration (Optional!)
-For those who want websites with chat emotes:
-```diff
-+ /site_builder : Sparkle magic in Discord!
-+ /uploadhtml  : Share your code-fu
-+ /refresh_tunnel  : Create a new link for Aina's server~
-+ /get_tunnel  : Get the current link for Aina's server~
+### Installation
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Iteranya/Aina-Discord-Bot.git
+   cd Aina-Discord-Bot
+   ```
+2. Configure environment variables:
+   - Copy `example.env` to `.env`
+   - Update the values:
+     ```
+     AI_TOKEN="your_ai_token_here"
+     DISCORD_TOKEN="your_discord_token_here"
+     ```
+   - Optionally, configure the base LLM and model settings in `config.py`
+3. Run the appropriate starter script:
+   - Windows: Double-click `start.cmd` or run it from the command line
+   - Linux/Mac: `./start.sh`
+
+These scripts will automatically:
+- Create a virtual environment if it doesn't exist
+- Install required dependencies
+- Download cloudflared if needed
+- Start both the server and Discord bot
+
+### Accessing the Website Builder
+1. After running the start script, the local server will be running
+2. Open your browser and go to `http://localhost:5454` to view the gallery of all created websites
+3. Navigate to `http://localhost:5454/site-builder` to access the interactive website builder
+4. Enter your website description, generate, and edit in real-time!
+
+### Using the Discord Bot
+Once your bot is running and added to your Discord server, you can use the slash commands to create websites directly from Discord.
+
+## 🤖 Discord Commands
+
+Aina offers the following slash commands in Discord:
+
+| Command | Description |
+|---------|-------------|
+| `/site_builder` | Opens a modal where you can provide a title and description for your website. Aina will generate a complete website based on your input! |
+| `/uploadhtml` | Skip the generation process and upload your own static HTML file directly for hosting. |
+| `/tunnel` | Create or refresh the tunnel to Aina's server, where all websites are stored and displayed. |
+| `/tunnel_info` | Get the current URL to Aina's website gallery to browse all created sites. |
+
+## ⚙️ Configuration
+
+The application can be configured through:
+- `.env` file - Contains your API tokens
+- `config.py` - Contains settings for the base LLM and model
+
+## 🏗️ Architecture
+
+Under the hood, Aina Website Builder utilizes:
+- FastAPI backend for handling website requests and hosting
+- Interactive website builder with real-time preview
+- Jinja2 templates for the gallery homepage
+- File-based storage system for all generated websites
+- Cloudflare tunneling for external access
+
+## 🌐 Examples
+
+**Example website prompt:**
+```
+Title: My Bakery Shop
+Description: A cozy bakery website with a vintage feel. Should have sections for our menu, about us story, and a contact form. Use warm colors like browns and cream.
 ```
 
-## 🎀 Getting Started
+## 🔗 Related Projects
 
-### Basic Requirements
-- A device that can open browsers (even smartphones!)
-- Ability to resist hugging your screen
-- Optional: Discord account (for extra kawaii points)
+- Original [Aina Website Builder](https://github.com/Iteranya/Aina-Website-Builder) project
 
-### Installation (For Self-Hosters)
-1. Clone Aina-chan from github! `git clone https://github.com/Iteranya/Aina-Website-Builder.git`
-2. Check out the `example.env`~ It contains all the secrets required! (Keep this super, duper, secret nyaaa~)
-3. Copy the stuff in example.env into a brand new `.env` file!!!
-4. Run `start.cmd` (Or `start.sh` if Senpai uses Linux~)
+## 📝 License
 
-And you're done!!! Just run `start.cmd` :3
+This project is licensed under the AGPL-3 License - see the LICENSE file for details.
 
-## 🌈 Future Cuteness (Planned Features)
-- [ ] "Deploy Now!" button that makes Aina-chan panic-deploy her drafts into production
-- [ ] Admin panel with blushing error messages
+## 👩‍💻 Contributing
 
-## 🍡 Why Choose Aina-chan?
+Contributions are welcome! Feel free to open an issue or submit a pull request.
 
-|                | Professional Tools | Aina-chan          |
-|----------------|--------------------|--------------------|
-| **UI**         | 😑 Clean           | 🥳 Pink explosion! |
-| **Errors**     | ❌ Descriptive     | 🥺 Puppy eyes      |
-| **Deployment** | 🚀 CI/CD           | 🪄 Magic sparkles  |
-| **Support**    | 💼 Sales team      | 🍡 Emoji prayers   |
+## 🙏 Acknowledgements
 
-## 💌 Developer Notes
-
-*"Originally an experiment to reverse engineer deepsite, turns into... this... Thing..."*
-
-## 📜 License
-
-AGPL-3.0 License (But with extra hugs!)  
-*Commercial use requires sending Aina-chan pictures of cats*
-
----
-
-<div align="center">
-  <sub>Built with 🩷, anime music, and questionable CSS choices</sub><br>
-  <sup>Aina-chan isn't responsible for broken layouts... but she'll try to fix them!</sup>
-</div>
+- Built with ❤️ by [Iteranya](https://github.com/Iteranya)
