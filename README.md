@@ -40,7 +40,6 @@ Now featuring full Discord integration, Aina brings its website creation powers 
      ```
      DISCORD_TOKEN="your_discord_token_here"
      ```
-   - Optionally, configure the base LLM and model settings in `config.py`
 3. Run the appropriate starter script:
    - Windows: Double-click `start.cmd` or run it from the command line
    - Linux/Mac: `./start.sh`
@@ -49,7 +48,7 @@ These scripts will automatically:
 - Create a virtual environment if it doesn't exist
 - Install required dependencies
 - Download cloudflared if needed
-- Start both the server and Discord bot
+- Start both the server and Discord bot (Note, if Discord Key isn't supplied, the Discord Bot automatically closes, but the server is still accessible)
 
 ### Accessing the Website Builder
 1. After running the start script, the local server will be running
