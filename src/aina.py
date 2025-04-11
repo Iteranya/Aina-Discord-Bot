@@ -5,6 +5,9 @@ import asyncio
 from concurrent.futures import ThreadPoolExecutor
 import json
 import discord
+import asyncio
+from openai import OpenAI
+import config
 
 # Create a thread pool for CPU-bound tasks
 executor = ThreadPoolExecutor()
@@ -103,3 +106,56 @@ async def send_new_site(filename, channel: discord.channel.TextChannel):
         message = f"Website is finished senpai!\n\nYou can access it here: {accesslink}/sites/drafts/{filename}.html\n\nI hope you like it! Aina-chan did her best~\n\nPS: If the link don't work, use `/aina tunnel` to reactivate it, you can find the new website in Aina's website~"
 
         await channel.send(message)
+
+
+
+
+# Store active generation tasks
+active_generations = {}
+
+async def generate_html_stream(content, generation_id):
+    ai_config:config.Config = config.load_or_create_config()
+
+    client = OpenAI(
+        base_url=ai_config.ai_endpoint,
+        api_key=config.get_key(),
+    )
+    try:
+        # Create the prompt
+        messages = [
+            {
+            "role": "system",
+            "content": ai_config.system_note
+            },
+            {
+            "role": "user",
+            "content": f"{content}"
+            },
+            {
+            "role": "assistant",
+            "content": "Understood, here's the requested site: ```html\n"
+            }
+        ]
+        
+        # Use synchronous client with stream=True for streaming
+        stream = client.chat.completions.create(
+            model=ai_config.base_llm,
+            messages=messages,
+            stream=True
+        )
+        
+        html_so_far = ""
+        # Iterate through the stream (this works synchronously)
+        for chunk in stream:
+            delta_content = chunk.choices[0].delta.content
+            if delta_content:
+                html_so_far += delta_content
+                # Store this chunk
+                if generation_id in active_generations:
+                    active_generations[generation_id]["chunks"].append(delta_content)
+                await asyncio.sleep(0.01)  # Small delay to prevent CPU overload
+        
+        return html_so_far
+    except Exception as e:
+        print(f"Error in generation: {str(e)}")
+        return f"<html><body><h1>Error</h1><p>{str(e)}</p></body></html>"

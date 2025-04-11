@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✨ Aina's ComfyUI Helper ✨</title>
+    <!-- Importing Font Awesome for icons! (ﾉ´ヮ´)ﾉ*:･ﾟ✧ -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* Aina's Pretty Styles! 🎨✨ */
+        @import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700&display=swap');
+
+        :root {
+            --bg-color: #F0F4F8; /* Light blue-ish grey */
+            --card-bg: #FFFFFF; /* White */
+            --primary-blue: #3B82F6; /* Nice blue */
+            --primary-blue-hover: #2563EB; /* Darker blue */
+            --accent-green: #10B981; /* Vibrant green */
+            --accent-green-hover: #059669; /* Darker green */
+            --text-color: #1F2937; /* Dark grey */
+            --label-color: #4B5563; /* Medium grey */
+            --border-color: #D1D5DB; /* Light grey */
+            --error-bg: #FEF2F2; /* Light red */
+            --error-text: #DC2626; /* Strong red */
+            --error-border: #FECACA;
+            --success-bg: #ECFDF5; /* Light green */
+            --success-text: #047857; /* Strong green */
+            --success-border: #A7F3D0;
+            --info-bg: #EFF6FF; /* Light blue */
+            --info-text: #3B82F6;
+            --info-border: #BFDBFE;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --border-radius: 12px; /* Rounded corners are cute! (≧∇≦)/ */
+        }
+
+        body {
+            font-family: 'M PLUS Rounded 1c', sans-serif; /* Rounded fonts are friendlier! */
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Align to top */
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .container {
+            background-color: var(--card-bg);
+            padding: 35px 40px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            max-width: 700px;
+            width: 100%;
+            transition: box-shadow 0.3s ease; /* Smooth shadow transition */
+        }
+
+        .container:hover {
+             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        h1 {
+            color: var(--primary-blue);
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.5em; /* Bigger title! */
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px; /* Space between icon and text */
+        }
+        h1 .icon { /* Styling the icon in h1 */
+            font-size: 0.9em; /* Make icon slightly smaller than text */
+            color: var(--accent-green); /* Green icon! ☆ */
+        }
+
+
+        p.description {
+            text-align: center;
+            color: var(--label-color);
+            margin-bottom: 35px;
+            font-size: 1.1em;
+        }
+         p.description code { /* Style the code tag nicely (⌒▽⌒) */
+            background-color: #E5E7EB; /* Light gray background */
+            color: #374151; /* Darker gray text */
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-size: 0.95em;
+            font-family: monospace; /* Use monospace for code */
+         }
+
+
+        label {
+            display: block;
+            margin-top: 20px;
+            margin-bottom: 8px;
+            font-weight: 500; /* Medium weight */
+            color: var(--label-color);
+            font-size: 1.1em; /* Slightly larger label */
+            display: flex; /* Use flexbox for icon alignment! */
+            align-items: center;
+            gap: 8px; /* Space between icon and text */
+        }
+         label .fa-solid { /* Style icons in labels */
+            color: var(--primary-blue); /* Blue icons for labels! */
+            font-size: 1em; /* Adjust icon size if needed */
+         }
+
+
+        input[type="text"],
+        input[type="number"],
+        textarea {
+            width: 100%; /* Take full width */
+            padding: 12px 15px;
+            margin-bottom: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px; /* More rounded */
+            box-sizing: border-box;
+            font-size: 1em;
+            color: var(--text-color);
+            background-color: #F9FAFB; /* Very light grey input background */
+            transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3); /* Blue glow on focus ✨ */
+        }
+
+        textarea {
+            height: 120px;
+            resize: vertical;
+        }
+
+        .dimension-group {
+            display: flex;
+            gap: 20px; /* More space between width/height */
+            align-items: flex-end; /* Align items to the bottom (useful if labels wrap) */
+            margin-bottom: 15px; /* Add margin below the group */
+        }
+
+        .dimension-group > div {
+            flex: 1; /* Each takes half the space */
+        }
+        .dimension-group label {
+            margin-top: 0; /* Reset margin for labels inside flex group */
+        }
+
+        button {
+            padding: 14px 30px; /* Bigger padding */
+            background: linear-gradient(to right, var(--primary-blue), var(--accent-green)); /* Gradient! (*^▽^*) */
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em; /* Larger font size */
+            font-weight: 500;
+            margin-top: 25px;
+            width: 100%; /* Make button full width */
+            display: flex; /* Use flex for icon alignment */
+            align-items: center;
+            justify-content: center; /* Center text and icon */
+            gap: 10px; /* Space between icon and text */
+            transition: background 0.3s ease, transform 0.1s ease, box-shadow 0.3s ease;
+            box-shadow: var(--shadow);
+        }
+
+        button:hover {
+            /* Slightly change gradient on hover - maybe darken? */
+             background: linear-gradient(to right, var(--primary-blue-hover), var(--accent-green-hover));
+             box-shadow: 0 6px 10px -2px rgba(0, 0, 0, 0.15), 0 3px 6px -2px rgba(0, 0, 0, 0.1);
+        }
+        button:active {
+            transform: scale(0.98); /* Cute click effect! (づ｡◕‿‿◕｡)づ */
+        }
+        button:disabled {
+             background: #9CA3AF; /* Grey out when disabled */
+             cursor: not-allowed;
+             box-shadow: none;
+             transform: none;
+         }
+         button .fa-solid { /* Icon style inside button */
+            font-size: 1.1em; /* Slightly larger icon */
+         }
+
+
+        #status {
+            margin-top: 30px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            font-size: 1.05em;
+            display: flex;
+            align-items: center;
+            gap: 12px; /* Space between icon and text */
+            transition: background-color 0.3s ease, color 0.3s ease;
+            border: 1px solid transparent; /* Base border */
+            /* Default info style */
+            background-color: var(--info-bg);
+            color: var(--info-text);
+            border-color: var(--info-border);
+        }
+        #status::before { /* Using ::before for the status icon! */
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            font-size: 1.2em;
+            /* Default icon */
+            content: "\f05a"; /* info-circle icon */
+            color: var(--info-text);
+        }
+
+        #status.error {
+            background-color: var(--error-bg);
+            color: var(--error-text);
+            border-color: var(--error-border);
+        }
+        #status.error::before {
+            content: "\f071"; /* warning / exclamation-triangle */
+            color: var(--error-text);
+        }
+
+        #status.success {
+            background-color: var(--success-bg);
+            color: var(--success-text);
+            border-color: var(--success-border);
+        }
+        #status.success::before {
+            content: "\f058"; /* check-circle */
+            color: var(--success-text);
+        }
+
+        #status.loading { /* Custom style for loading state */
+             background-color: var(--info-bg);
+             color: var(--info-text);
+             border-color: var(--info-border);
+        }
+         #status.loading::before {
+             content: "\f110"; /* spinner icon */
+             color: var(--info-text);
+             /* Add animation! Let's make it spin! σ(≧ε≦ｏ) */
+             animation: spin 1s linear infinite;
+         }
+
+
+        #imagePreview {
+            margin-top: 30px;
+            max-width: 100%;
+            display: none; /* Hidden by default */
+            border: 2px solid var(--border-color); /* Slightly thicker border */
+            border-radius: var(--border-radius); /* Match container rounding */
+            box-shadow: var(--shadow);
+            transition: opacity 0.5s ease, transform 0.5s ease; /* Smooth appearance */
+            opacity: 0;
+            transform: scale(0.95);
+        }
+        #imagePreview.visible { /* Class to fade-in the image */
+            display: block;
+            opacity: 1;
+            transform: scale(1);
+        }
+
+
+         /* Spinning animation for loading icon (ﾉ´ヮ´)ﾉ*:･ﾟ✧ */
+         @keyframes spin {
+             from { transform: rotate(0deg); }
+             to { transform: rotate(360deg); }
+         }
+
+
+        /* Responsive adjustments for smaller screens */
+        @media (max-width: 600px) {
+             body { padding: 15px; }
+            .container { padding: 25px 20px; }
+             h1 { font-size: 2em; gap: 10px;}
+             p.description { font-size: 1em; margin-bottom: 25px; }
+             label { font-size: 1em; }
+             .dimension-group { flex-direction: column; gap: 0; } /* Stack width/height */
+             .dimension-group > div { margin-bottom: 15px; } /* Add space when stacked */
+             button { padding: 12px 25px; font-size: 1em;}
+             #status { padding: 12px 15px; font-size: 1em;}
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>
+            <i class="fa-solid fa-wand-magic-sparkles icon"></i> <!-- Cute wand icon! -->
+            Aina's ComfyUI Helper
+            (ﾉ´ヮ´)ﾉ*:･ﾟ✧
+        </h1>
+        <p class="description">
+            Hi Senpai! <i class="fa-regular fa-heart"></i> Let's make some pretty pictures! Just tell me what you want. <br>
+            Using workflow: <code>{{ default_workflow_file }}</code>
+        </p>
+
+        <!-- IMPORTANT: Keep the form ID and input names/ids exactly the same for the JS! -->
+        <form id="generateForm">
+            <label for="positive_prompt">
+                <i class="fa-solid fa-lightbulb"></i> Positive Prompt:
+            </label>
+            <textarea id="positive_prompt" name="positive_prompt" required placeholder="E.g., beautiful anime girl, masterpiece, best quality...">{{ default_positive }}</textarea>
+
+            <label for="negative_prompt">
+                <i class="fa-solid fa-ban"></i> Negative Prompt:
+            </label>
+            <textarea id="negative_prompt" name="negative_prompt" placeholder="E.g., worst quality, low quality, blurry, text...">{{ default_negative }}</textarea>
+
+            <div class="dimension-group">
+                <div>
+                    <label for="width">
+                        <i class="fa-solid fa-arrows-left-right"></i> Width:
+                    </label>
+                    <input type="number" id="width" name="width" value="{{ default_width }}" required step="64"> <!-- Added step for common dimensions -->
+                </div>
+                <div>
+                    <label for="height">
+                        <i class="fa-solid fa-arrows-up-down"></i> Height:
+                    </label>
+                    <input type="number" id="height" name="height" value="{{ default_height }}" required step="64"> <!-- Added step -->
+                </div>
+            </div>
+
+            <label for="server_address">
+                 <i class="fa-solid fa-server"></i> Server Address (Optional):
+            </label>
+            <input type="text" id="server_address" name="server_address" placeholder="Default: {{ default_server }}">
+
+            <!-- Button uses the SAME onclick function -->
+            <button type="submit">
+                <i class="fa-solid fa-rocket"></i> Generate Image!
+            </button>
+        </form>
+
+        <!-- Status display -->
+        <div id="status">
+             <i class="fa-solid fa-info-circle"></i> <!-- Default icon placeholder -->
+             <span>Enter parameters and click Generate, Senpai! ( ´ ▽ ` )ﾉ</span>
+        </div>
+
+        <!-- Gallery preview area -->
+        <div class="gallery-container">
+            <h3 class="gallery-title">
+                <i class="fa-solid fa-images"></i>
+                Generated Gallery (session only)
+            </h3>
+            <div class="gallery-grid" id="galleryGrid"></div>
+            <button type="button" class="clear-gallery" onclick="clearGallery()">
+                <i class="fa-solid fa-trash"></i>
+                Clear Gallery
+            </button>
+        </div>
+
+    </div>
+
+    <!-- ☆*:.｡.o(≧▽≦)o.｡.:*☆ NO CHANGES TO JAVASCRIPT BELOW THIS LINE! ☆*:.｡.o(≧▽≦)o.｡.:*☆ -->
+    <script>
+        let currentTaskId = null;
+        let statusCheckInterval = null;
+        let consecutiveNetworkErrors = 0;
+        const MAX_NETWORK_RETRIES = 5;
+        
+        // Initialize gallery from sessionStorage
+        let gallery = JSON.parse(sessionStorage.getItem('comfyui_gallery')) || [];
+
+        const statusElement = document.getElementById('status');
+        const statusTextElement = statusElement.querySelector('span');
+        const generateButton = document.querySelector('#generateForm button');
+        const galleryGrid = document.getElementById('galleryGrid');
+
+        // Initialize gallery display
+        updateGalleryDisplay();
+    
+        // Helper function to update status with icon logic
+        function updateStatus(message, type = 'info') {
+            statusTextElement.textContent = message; // Update only the text part
+            statusElement.className = type; // Set class for styling (info, success, error, loading)
+        }
+    
+        async function generateImage() {
+            currentTaskId = null;
+            consecutiveNetworkErrors = 0; // Reset error counter for new task
+            updateStatus('Starting image generation... Getting ready! (๑˃̵ᴗ˂̵)و', 'loading'); // Use loading style
+            generateButton.disabled = true; // Disable button during processing
+            clearInterval(statusCheckInterval); // Clear any existing interval
+    
+            // Gather form data
+            const positive_prompt = document.getElementById('positive_prompt').value;
+            const negative_prompt = document.getElementById('negative_prompt').value;
+            const width = parseInt(document.getElementById('width').value, 10);
+            const height = parseInt(document.getElementById('height').value, 10);
+            let server_address = document.getElementById('server_address').value.trim();
+            if (!server_address) {
+                server_address = null; // Send null if empty, so backend uses default
+            }
+    
+            const payload = {
+                positive_prompt,
+                negative_prompt,
+                width,
+                height,
+                server_address
+            };
+    
+            try {
+                // Fetch paths should remain the same if your FastAPI routes are correct
+                const response = await fetch('/comfyui/generate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+    
+                // Try to parse JSON regardless of response.ok to get potential error detail
+                let data;
+                try {
+                    data = await response.json();
+                    console.log("Generation Request Response:", data);
+                } catch (jsonError) {
+                    // If JSON parsing fails, create a generic error object
+                    console.error("Failed to parse JSON response:", jsonError);
+                    data = { detail: `Server returned status ${response.status} but response was not valid JSON.` };
+                }
+    
+    
+                if (!response.ok) {
+                    // Display detail from HTTPException if available, or a fallback
+                    updateStatus(`Error starting generation: ${data.detail || `Server error ${response.status}`}. Please try again! (｡•́︿•̀｡)`, 'error');
+                    generateButton.disabled = false; // Re-enable button
+                    return;
+                }
+    
+                currentTaskId = data.task_id;
+                if (!currentTaskId) {
+                    updateStatus('Error: Server responded OK but did not provide a Task ID. Cannot track progress. (⊙_⊙)?', 'error');
+                    generateButton.disabled = false;
+                    return;
+                }
+    
+                updateStatus(`Generation started (Task ID: ${currentTaskId}). Checking status... Let's see... (づ｡◕‿‿◕｡)づ`, 'loading');
+    
+                // Start checking status immediately and then interval
+                await checkStatus(); // Initial check
+    
+                // Only set interval if the task didn't *already* complete or fail in the first check
+                // and if the interval wasn't cleared by checkStatus itself
+                if (statusCheckInterval !== null) { // Check if interval is still active (wasn't cleared by first check)
+                    // The interval might have been cleared if the first checkStatus found completion/failure
+                    // If interval is null here, it means checkStatus cleared it.
+                } else if (currentTaskId && document.getElementById('status').className.includes('loading')) {
+                     // If the task ID is valid and status is still loading (meaning it wasn't completed/failed on the first check)
+                     statusCheckInterval = setInterval(checkStatus, 3000); // Check every 3 seconds
+                     console.log(`Interval set for Task ID: ${currentTaskId}`);
+                } else {
+                    // If no task ID or status is no longer 'loading', ensure button is enabled
+                     generateButton.disabled = false;
+                     console.log(`Interval not set. Task ID: ${currentTaskId}, Status Class: ${document.getElementById('status').className}`);
+                }
+    
+    
+            } catch (error) {
+                console.error("Error during generateImage fetch:", error);
+                updateStatus(`Network error during initial request: ${error.message}. Check connection? (＞﹏＜)`, 'error');
+                generateButton.disabled = false; // Re-enable button
+            }
+        }
+
+        function updateGalleryDisplay() {
+            galleryGrid.innerHTML = '';
+            gallery.forEach((item, index) => {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'gallery-item';
+                wrapper.innerHTML = `
+                    <img src="${item.url}" class="gallery-image" alt="Generated image">
+                    <div class="gallery-meta">${item.timestamp}<br>Task: ${item.taskId}</div>
+                    <button class="delete-btn" onclick="deleteGalleryItem(${index})">
+                        <i class="fa-solid fa-times"></i>
+                    </button>
+                `;
+                galleryGrid.appendChild(wrapper);
+            });
+        }
+
+        function deleteGalleryItem(index) {
+            gallery.splice(index, 1);
+            sessionStorage.setItem('comfyui_gallery', JSON.stringify(gallery));
+            updateGalleryDisplay();
+        }
+
+        function clearGallery() {
+            gallery = [];
+            sessionStorage.removeItem('comfyui_gallery');
+            updateGalleryDisplay();
+        }
+    
+        async function checkStatus() {
+            if (!currentTaskId) {
+                 console.warn("checkStatus called without currentTaskId.");
+                 // Should not happen if generateImage logic is correct, but safe to check
+                 clearInterval(statusCheckInterval);
+                 statusCheckInterval = null;
+                return;
+            }
+    
+            console.log(`Checking status for Task ID: ${currentTaskId}, Consecutive Errors: ${consecutiveNetworkErrors}`);
+    
+            try {
+                // Use fetch to check status endpoint
+                const response = await fetch(`/comfyui/status/${currentTaskId}`);
+    
+                // ** Reset network error counter on successful communication **
+                consecutiveNetworkErrors = 0;
+    
+                // Handle non-JSON responses or server errors BEFORE trying to parse JSON
+                if (!response.ok) {
+                    // If task not found (404), it might have finished very fast and been cleaned up,
+                    // or it never existed. Stop checking.
+                    if (response.status === 404) {
+                        updateStatus(`Error: Task ID ${currentTaskId} not found. Maybe it finished super fast or there was an issue? Stopping checks. (・_・;)`, 'error');
+                    } else {
+                        // Other server errors during status check
+                        updateStatus(`Error checking status: Server returned ${response.status}. Stopping checks. (´･_･\`)`, 'error');
+                    }
+                    clearInterval(statusCheckInterval);
+                    statusCheckInterval = null;
+                    generateButton.disabled = false; // Re-enable button
+                    return; // Stop further processing for this check
+                }
+    
+                // --- Response is OK (2xx), now parse JSON ---
+                let data;
+                try {
+                     data = await response.json();
+                     console.log("Status Check Response:", data);
+                } catch (jsonError) {
+                     console.error("Failed to parse JSON response from status check:", jsonError);
+                     updateStatus(`Error: Received OK status from server, but couldn't understand the response. Stopping checks. ( T ω T )`, 'error');
+                     clearInterval(statusCheckInterval);
+                     statusCheckInterval = null;
+                     generateButton.disabled = false;
+                     return;
+                }
+    
+    
+                // --- Process the valid JSON data ---
+                if (data.status === 'completed') {
+                    clearInterval(statusCheckInterval);
+                    statusCheckInterval = null;
+                    const completedTaskId = data.task_id || currentTaskId;
+                    updateStatus(`Yay! Generated ${data.image_count} image(s)! Adding to gallery... (っ˘ω˘ς )`, 'success');
+                    generateButton.disabled = false;
+    
+                    // Display the first image (index 0)
+                    if (data.image_count > 0 && completedTaskId) {
+                        const timestamp = new Date().toLocaleString();
+                        
+                        const imagePromises = Array.from({length: data.image_count}, (_, index) => {
+                            return new Promise((resolve) => {
+                                const img = new Image();
+                                img.onload = () => resolve({
+                                    url: `/comfyui/image/${completedTaskId}?index=${index}`,
+                                    timestamp: timestamp,
+                                    taskId: completedTaskId
+                                });
+                                img.onerror = () => resolve(null);
+                                img.src = `/comfyui/image/${completedTaskId}?index=${index}`;
+                            });
+                        });
+
+                        // Add this part to process the images
+                        Promise.all(imagePromises).then(images => {
+                            // Filter out images from this specific task that might already exist
+                            gallery = gallery.filter(existingImg => existingImg.taskId !== completedTaskId);
+                            
+                            // Now add all the new images from this task
+                            images.forEach(img => {
+                                if (img) {
+                                    gallery.push(img);
+                                }
+                            });
+                            
+                            sessionStorage.setItem('comfyui_gallery', JSON.stringify(gallery));
+                            updateGalleryDisplay();
+                        });
+
+                    } else if (data.image_count > 0 && !completedTaskId) {
+                        updateStatus('Generation complete, but failed to confirm Task ID for image retrieval. (｡•́︿•̀｡)', 'error');
+                    } else {
+                        updateStatus('Generation complete, but no images were returned. Hmm... (￣ω￣;)', 'warning'); // Use warning maybe?
+                    }
+                    // Keep currentTaskId in case user wants to reference it
+    
+                } else if (data.status === 'failed') {
+                    clearInterval(statusCheckInterval);
+                    statusCheckInterval = null;
+                    updateStatus(`Oh no! Generation failed for Task ${currentTaskId}: ${data.error || 'Unknown error'} (｡>_<｡)`, 'error');
+                    generateButton.disabled = false; // Re-enable button
+    
+                } else if (data.status === 'processing') {
+                    updateStatus(`Status: Processing... Hang tight, Senpai! (づ｡◕‿‿◕｡)づ (Task ID: ${currentTaskId})`, 'loading');
+                    // Keep polling, button remains disabled, interval continues
+    
+                } else {
+                    // Handle unexpected statuses
+                    updateStatus(`Status: Unknown (${data.status}) for Task ${currentTaskId} - That's weird! Stopping checks. (o_O)`, 'error');
+                    clearInterval(statusCheckInterval);
+                    statusCheckInterval = null;
+                    generateButton.disabled = false;
+                }
+            } catch (error) {
+                // Handle network errors during status check itself
+                consecutiveNetworkErrors++;
+                console.error(`Network error checking status (Attempt <span class="math-inline">\{consecutiveNetworkErrors\}/</span>{MAX_NETWORK_RETRIES}):`, error);
+    
+                if (consecutiveNetworkErrors >= MAX_NETWORK_RETRIES) {
+                    updateStatus(`Network error checking status for Task ${currentTaskId}: ${error.message}. Giving up after ${MAX_NETWORK_RETRIES} tries. (✖﹏✖)`, 'error');
+                    clearInterval(statusCheckInterval);
+                    statusCheckInterval = null;
+                    generateButton.disabled = false; // Re-enable button as we stopped trying
+                } else {
+                    // Update status but keep trying
+                    updateStatus(`Network error checking status for Task ${currentTaskId}: <span class="math-inline">\{error\.message\}\. Trying again\.\.\. \(</span>{consecutiveNetworkErrors}/${MAX_NETWORK_RETRIES}) (＞人＜;)`, 'error');
+                     // Keep the 'error' class, but the message indicates a retry is happening.
+                     // Interval continues automatically.
+                }
+            }
+        }
+    
+        // Optional: Add event listener to form to prevent default submission
+        document.getElementById('generateForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+            generateImage(); // Call our JS function instead
+        });
+    
+        // Initial status message on page load
+        updateStatus('Enter parameters and click Generate, Senpai! Let\'s make something amazing! ( ´ ▽ ` )ﾉ', 'info');
+    </script>
+</body>
+</html>
