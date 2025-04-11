@@ -40,14 +40,14 @@ router = APIRouter()
 
 
 # --- Helper Function ---
-def modify_workflow(base_workflow: Dict[str, Any], params: ImageGenerationParams) -> Dict[str, Any]:
+async def modify_workflow(base_workflow: Dict[str, Any], params: ImageGenerationParams) -> Dict[str, Any]:
     """
     Modifies the loaded ComfyUI workflow dictionary with parameters.
     NOTE: Relies on specific node IDs ('3', '5', '6', '7', '11') existing
           in the base_workflow. This can be fragile if the workflow changes.
     """
     modified_workflow = base_workflow.copy() # Work on a copy
-
+    new_prompt = await generate_sd_prompt(params.positive_prompt)
     # Generate a random seed if not provided (or always use random)
     random_seed = random.randint(1, 999999999999999)
     # If you add seed to ImageGenerationParams and want user control:
@@ -63,7 +63,10 @@ def modify_workflow(base_workflow: Dict[str, Any], params: ImageGenerationParams
 
         # Modify Positive Prompt (assuming Node '6')
         if "6" in modified_workflow and "inputs" in modified_workflow["6"]:
-            modified_workflow["6"]["inputs"]["text"] = params.positive_prompt
+            if new_prompt != None or new_prompt!="":
+                modified_workflow["6"]["inputs"]["text"] = new_prompt
+            else:
+                modified_workflow["6"]["inputs"]["text"] = params.positive_prompt
         else:
              print("Warning: Node '6' (expected Positive CLIPTextEncode) not found or missing inputs.")
 
@@ -127,7 +130,7 @@ async def generate_image_endpoint(params: ImageGenerationParams):
     """
     task_id = str(uuid.uuid4())
     server_addr_to_use = params.server_address or COMFYUI_SERVER
-
+    print("The Current Task ID is: "+task_id)
     try:
         # 1. Load the base workflow from the default file
         if not os.path.exists(DEFAULT_WORKFLOW_FILE):
@@ -137,7 +140,9 @@ async def generate_image_endpoint(params: ImageGenerationParams):
             base_workflow = json.load(f)
 
         # 2. Modify the loaded workflow with the provided parameters
-        modified_workflow = modify_workflow(base_workflow, params)
+        modified_workflow = await modify_workflow(base_workflow, params)
+        print("Here's the modified workflow")
+        print(modified_workflow)
 
         # 3. Start the generation task in the background
         task = asyncio.create_task(process_comfyui_workflow(
@@ -145,6 +150,7 @@ async def generate_image_endpoint(params: ImageGenerationParams):
             task_id,
             server_addr_to_use
         ))
+        print("Made It Here")
 
         # 4. Store task info
         comfy_tasks[task_id] = {
@@ -152,6 +158,7 @@ async def generate_image_endpoint(params: ImageGenerationParams):
             "task": task,
             "images": []
         }
+        print("Just before retuning task_id")
 
         return {"task_id": task_id}
 
@@ -172,11 +179,13 @@ async def get_generation_status(task_id: str):
     """
     Check the status of a ComfyUI generation task.
     """
+    print("Trying to check taskId: "+task_id)
+    print("Here's the Task info: ")
+    print(comfy_tasks[task_id])
     if task_id not in comfy_tasks:
         raise HTTPException(status_code=404, detail="Task not found")
 
     task_info = comfy_tasks[task_id]
-    # print(f"Status check for {task_id}: {task_info}") # Debugging print
 
     # Check if the task is complete only if it's currently 'processing'
     # Avoids repeatedly checking finished tasks

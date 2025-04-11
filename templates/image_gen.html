@@ -30,20 +30,45 @@
             --info-text: #3B82F6;
             --info-border: #BFDBFE;
             --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+             --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* Larger shadow */
+             --shadow-inset: inset 0 2px 4px 0 rgba(0, 0, 0, 0.05); /* Subtle inset shadow */
             --border-radius: 12px; /* Rounded corners are cute! (≧∇≦)/ */
+             --border-radius-sm: 8px; /* Smaller radius for inner elements */
+             --transition-fast: 0.2s ease; /* Faster transition */
+             --transition-medium: 0.3s ease; /* Medium transition */
         }
+
+        /* Basic Scrollbar Styling (Subtle & Rounded) */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-color);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: var(--border-color);
+            border-radius: 10px;
+            border: 2px solid var(--bg-color); /* Creates padding around thumb */
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: var(--label-color);
+        }
+
 
         body {
             font-family: 'M PLUS Rounded 1c', sans-serif; /* Rounded fonts are friendlier! */
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
-            padding: 30px;
+            padding: 40px 20px; /* More vertical padding, less horizontal */
             display: flex;
-            justify-content: center;
-            align-items: flex-start; /* Align to top */
+            flex-direction: column; /* Stack container and modal vertically */
+            align-items: center;
             min-height: 100vh;
             line-height: 1.6;
+            box-sizing: border-box;
         }
 
         .container {
@@ -51,29 +76,36 @@
             padding: 35px 40px;
             border-radius: var(--border-radius);
             box-shadow: var(--shadow);
-            max-width: 700px;
+            max-width: 750px; /* Slightly wider container */
             width: 100%;
-            transition: box-shadow 0.3s ease; /* Smooth shadow transition */
+            transition: box-shadow var(--transition-medium); /* Smooth shadow transition */
+             margin-bottom: 40px; /* Space between form and gallery */
         }
 
         .container:hover {
-             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+             box-shadow: var(--shadow-lg);
         }
 
         h1 {
             color: var(--primary-blue);
             text-align: center;
             margin-bottom: 10px;
-            font-size: 2.5em; /* Bigger title! */
+            font-size: 2.6em; /* Slightly bigger title! */
             font-weight: 700;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 15px; /* Space between icon and text */
+             letter-spacing: -0.5px; /* Subtle tightening */
         }
         h1 .icon { /* Styling the icon in h1 */
             font-size: 0.9em; /* Make icon slightly smaller than text */
             color: var(--accent-green); /* Green icon! ☆ */
+             transform: rotate(-5deg); /* Tiny tilt for cuteness */
+             transition: transform var(--transition-fast);
+        }
+        h1:hover .icon {
+            transform: rotate(5deg) scale(1.1); /* Playful hover effect */
         }
 
 
@@ -89,7 +121,13 @@
             padding: 3px 6px;
             border-radius: 4px;
             font-size: 0.95em;
-            font-family: monospace; /* Use monospace for code */
+            font-family: 'Courier New', Courier, monospace; /* Clearer monospace */
+         }
+         p.description .fa-heart {
+             color: #F472B6; /* Pink heart! */
+             font-size: 0.95em;
+             margin: 0 2px;
+             vertical-align: middle;
          }
 
 
@@ -107,6 +145,8 @@
          label .fa-solid { /* Style icons in labels */
             color: var(--primary-blue); /* Blue icons for labels! */
             font-size: 1em; /* Adjust icon size if needed */
+             min-width: 20px; /* Ensure icons take up space consistently */
+             text-align: center;
          }
 
 
@@ -117,12 +157,13 @@
             padding: 12px 15px;
             margin-bottom: 15px;
             border: 1px solid var(--border-color);
-            border-radius: 8px; /* More rounded */
+            border-radius: var(--border-radius-sm); /* Smaller radius */
             box-sizing: border-box;
             font-size: 1em;
             color: var(--text-color);
             background-color: #F9FAFB; /* Very light grey input background */
-            transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
+            transition: border-color var(--transition-medium), box-shadow var(--transition-medium); /* Smooth transitions */
+             box-shadow: var(--shadow-inset); /* Subtle inner shadow */
         }
 
         input[type="text"]:focus,
@@ -130,7 +171,7 @@
         textarea:focus {
             outline: none;
             border-color: var(--primary-blue);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3); /* Blue glow on focus ✨ */
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3), var(--shadow-inset); /* Blue glow on focus ✨ + Keep inset */
         }
 
         textarea {
@@ -154,10 +195,10 @@
 
         button {
             padding: 14px 30px; /* Bigger padding */
-            background: linear-gradient(to right, var(--primary-blue), var(--accent-green)); /* Gradient! (*^▽^*) */
+            background: linear-gradient(135deg, var(--primary-blue), var(--accent-green)); /* Diagonal Gradient! (*^▽^*) */
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: var(--border-radius-sm);
             cursor: pointer;
             font-size: 1.1em; /* Larger font size */
             font-weight: 500;
@@ -167,23 +208,42 @@
             align-items: center;
             justify-content: center; /* Center text and icon */
             gap: 10px; /* Space between icon and text */
-            transition: background 0.3s ease, transform 0.1s ease, box-shadow 0.3s ease;
+            transition: background var(--transition-medium), transform var(--transition-fast), box-shadow var(--transition-medium);
             box-shadow: var(--shadow);
+            position: relative; /* For pseudo-element shine */
+            overflow: hidden; /* Hide overflow from shine */
         }
 
+        /* Subtle Shine Effect (optional but cute!) */
+        button::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.15);
+            transform: rotate(45deg);
+            transition: left var(--transition-medium), top var(--transition-medium);
+            opacity: 0;
+        }
+
+
         button:hover {
-            /* Slightly change gradient on hover - maybe darken? */
-             background: linear-gradient(to right, var(--primary-blue-hover), var(--accent-green-hover));
-             box-shadow: 0 6px 10px -2px rgba(0, 0, 0, 0.15), 0 3px 6px -2px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(135deg, var(--primary-blue-hover), var(--accent-green-hover));
+             box-shadow: var(--shadow-lg); /* Lift effect */
+             transform: translateY(-2px); /* Slight lift */
         }
         button:active {
-            transform: scale(0.98); /* Cute click effect! (づ｡◕‿‿◕｡)づ */
+             transform: translateY(0px) scale(0.98); /* Push down slightly on click */
+             box-shadow: var(--shadow); /* Reduce shadow on click */
         }
         button:disabled {
              background: #9CA3AF; /* Grey out when disabled */
              cursor: not-allowed;
              box-shadow: none;
              transform: none;
+             opacity: 0.7;
          }
          button .fa-solid { /* Icon style inside button */
             font-size: 1.1em; /* Slightly larger icon */
@@ -193,25 +253,29 @@
         #status {
             margin-top: 30px;
             padding: 15px 20px;
-            border-radius: 8px;
+            border-radius: var(--border-radius-sm);
             font-size: 1.05em;
             display: flex;
             align-items: center;
             gap: 12px; /* Space between icon and text */
-            transition: background-color 0.3s ease, color 0.3s ease;
+            transition: all var(--transition-medium); /* Smooth transitions for everything */
             border: 1px solid transparent; /* Base border */
             /* Default info style */
             background-color: var(--info-bg);
             color: var(--info-text);
             border-color: var(--info-border);
+             box-shadow: var(--shadow-inset);
         }
         #status::before { /* Using ::before for the status icon! */
             font-family: "Font Awesome 6 Free";
             font-weight: 900;
             font-size: 1.2em;
+            min-width: 20px; /* Consistent icon width */
+            text-align: center;
             /* Default icon */
             content: "\f05a"; /* info-circle icon */
             color: var(--info-text);
+             transition: content var(--transition-fast), color var(--transition-medium);
         }
 
         #status.error {
@@ -246,36 +310,261 @@
              animation: spin 1s linear infinite;
          }
 
-
-        #imagePreview {
-            margin-top: 30px;
-            max-width: 100%;
-            display: none; /* Hidden by default */
-            border: 2px solid var(--border-color); /* Slightly thicker border */
-            border-radius: var(--border-radius); /* Match container rounding */
-            box-shadow: var(--shadow);
-            transition: opacity 0.5s ease, transform 0.5s ease; /* Smooth appearance */
-            opacity: 0;
-            transform: scale(0.95);
-        }
-        #imagePreview.visible { /* Class to fade-in the image */
-            display: block;
-            opacity: 1;
-            transform: scale(1);
-        }
-
-
          /* Spinning animation for loading icon (ﾉ´ヮ´)ﾉ*:･ﾟ✧ */
          @keyframes spin {
              from { transform: rotate(0deg); }
              to { transform: rotate(360deg); }
          }
 
+        /* --- ✨ Gallery Styling ✨ --- */
+        .gallery-container {
+             background-color: var(--card-bg);
+             padding: 30px;
+             border-radius: var(--border-radius);
+             box-shadow: var(--shadow);
+             max-width: 900px; /* Allow gallery to be wider */
+             width: 100%;
+             margin-top: 40px; /* Space above gallery */
+             transition: box-shadow var(--transition-medium);
+             display: flex; /* Use flex for better structure */
+             flex-direction: column;
+        }
+         .gallery-container:hover {
+              box-shadow: var(--shadow-lg);
+         }
 
-        /* Responsive adjustments for smaller screens */
+        .gallery-title {
+            color: var(--primary-blue);
+            text-align: center;
+            margin-top: 0; /* Reset margin */
+            margin-bottom: 25px;
+            font-size: 1.8em;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+         .gallery-title .fa-images {
+             color: var(--accent-green);
+         }
+
+        .gallery-grid {
+            display: grid;
+            /* Responsive grid: min 120px width, max 1fr -> creates as many columns as fit */
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px; /* Gap between images */
+            margin-bottom: 25px; /* Space before clear button */
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: var(--border-radius-sm);
+            overflow: hidden; /* Keep image corners rounded */
+            box-shadow: var(--shadow);
+            cursor: pointer; /* Indicate clickable */
+            transition: transform var(--transition-fast), box-shadow var(--transition-medium);
+            aspect-ratio: 1 / 1; /* Force square aspect ratio */
+        }
+        .gallery-item:hover {
+             transform: scale(1.05); /* Zoom effect */
+             box-shadow: var(--shadow-lg);
+             z-index: 10; /* Bring hovered item to front */
+        }
+        .gallery-item:hover .gallery-meta {
+            opacity: 1;
+            transform: translateY(0);
+        }
+         .gallery-item:hover .delete-btn {
+             opacity: 1;
+             transform: scale(1);
+         }
+
+        .gallery-image {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Cover the area, cropping if needed */
+            transition: opacity var(--transition-fast);
+        }
+
+        .gallery-meta {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+            color: white;
+            padding: 8px 10px;
+            font-size: 0.8em;
+            line-height: 1.3;
+            opacity: 0; /* Hidden by default */
+            transform: translateY(100%); /* Slide in from bottom */
+            transition: opacity var(--transition-fast), transform var(--transition-fast);
+            pointer-events: none; /* Don't interfere with click */
+             border-bottom-left-radius: var(--border-radius-sm); /* Match parent rounding */
+             border-bottom-right-radius: var(--border-radius-sm);
+        }
+
+        .delete-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: rgba(220, 38, 38, 0.8); /* Reddish background */
+            color: white;
+            border: none;
+            border-radius: 50%; /* Circle */
+            width: 24px; /* Reduced from 28px for better proportion */
+            height: 24px; /* Must be the same as width for a perfect circle */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8em; /* Slightly smaller font size */
+            cursor: pointer;
+            opacity: 0; /* Hidden by default */
+            transform: scale(0.8);
+            transition: all var(--transition-fast);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+            z-index: 5; /* Above meta */
+            padding: 0; /* Remove any padding that might be affecting shape */
+            line-height: 0; /* Reset line height that might cause vertical stretching */
+        }
+
+        /* Ensure the icon is centered */
+        .delete-btn .fa-times {
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+        }
+        .delete-btn:hover {
+            background-color: rgba(220, 38, 38, 1); /* Solid red on hover */
+             transform: scale(1.1) rotate(10deg); /* Playful hover */
+        }
+
+
+        button.clear-gallery {
+            /* Style similarly to the main button, but maybe less prominent */
+            padding: 10px 20px;
+            background: var(--label-color); /* Grey button */
+            color: white;
+            border: none;
+            border-radius: var(--border-radius-sm);
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 500;
+            margin-top: 0; /* Reset margin, controlled by gallery-grid */
+            width: auto; /* Don't force full width */
+            display: inline-flex; /* Fit content */
+            align-self: center; /* Center button horizontally */
+            gap: 8px;
+            transition: background var(--transition-medium), transform var(--transition-fast);
+             box-shadow: var(--shadow);
+        }
+        button.clear-gallery:hover {
+             background: #374151; /* Darker grey */
+             transform: translateY(-1px);
+             box-shadow: var(--shadow-lg);
+        }
+         button.clear-gallery:active {
+             transform: translateY(0px);
+             box-shadow: var(--shadow);
+         }
+
+
+        /* --- ✨ Image Modal (Lightbox) Styling ✨ --- */
+        .modal-overlay {
+            position: fixed; /* Cover the whole screen */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8); /* Dark semi-transparent background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0; /* Hidden by default */
+            visibility: hidden; /* Hidden for accessibility */
+            transition: opacity var(--transition-medium), visibility var(--transition-medium);
+            z-index: 1000; /* Make sure it's on top */
+             padding: 20px; /* Add padding for smaller screens */
+             box-sizing: border-box;
+        }
+        .modal-overlay.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            position: relative;
+            max-width: 90vw; /* Max width relative to viewport */
+            max-height: 90vh; /* Max height relative to viewport */
+            background: var(--card-bg);
+            padding: 15px; /* Padding around the image */
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-lg);
+            transform: scale(0.9); /* Start slightly smaller */
+            transition: transform var(--transition-medium);
+             display: flex; /* Center image */
+             justify-content: center;
+             align-items: center;
+        }
+        .modal-overlay.visible .modal-content {
+            transform: scale(1); /* Scale up when visible */
+        }
+
+        .modal-image {
+            display: block;
+            max-width: 100%; /* Fit within modal content width */
+            max-height: calc(90vh - 30px); /* Fit within modal content height minus padding */
+            object-fit: contain; /* Show whole image, no cropping */
+             border-radius: var(--border-radius-sm); /* Slight rounding for the image itself */
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: -15px; /* Position outside the modal content */
+            right: -15px;
+            background: var(--card-bg);
+            color: var(--primary-blue);
+            border: none;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            font-size: 1.3em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow);
+            transition: all var(--transition-fast);
+             line-height: 1;
+        }
+        .modal-close-btn:hover {
+             background: var(--primary-blue);
+             color: white;
+             transform: rotate(90deg) scale(1.1);
+        }
+
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            body { padding: 30px 15px; }
+            .container { padding: 30px 25px; max-width: 600px; }
+            h1 { font-size: 2.2em; }
+            .gallery-container { padding: 25px; max-width: 600px;}
+            .gallery-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px; }
+            .gallery-item { border-radius: 6px; }
+            .gallery-meta { font-size: 0.75em; padding: 6px 8px; }
+            .delete-btn { width: 24px; height: 24px; font-size: 0.8em; top: 4px; right: 4px;}
+            button.clear-gallery { padding: 8px 15px; font-size: 0.9em; }
+        }
+
         @media (max-width: 600px) {
-             body { padding: 15px; }
-            .container { padding: 25px 20px; }
+             body { padding: 20px 10px; }
+             .container { padding: 25px 20px; }
              h1 { font-size: 2em; gap: 10px;}
              p.description { font-size: 1em; margin-bottom: 25px; }
              label { font-size: 1em; }
@@ -283,11 +572,18 @@
              .dimension-group > div { margin-bottom: 15px; } /* Add space when stacked */
              button { padding: 12px 25px; font-size: 1em;}
              #status { padding: 12px 15px; font-size: 1em;}
+             .gallery-container { padding: 20px; }
+             .gallery-title { font-size: 1.6em; margin-bottom: 20px; }
+             .gallery-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 8px; }
+             .modal-close-btn { width: 30px; height: 30px; font-size: 1.1em; top: -10px; right: -10px; }
+             .modal-content { padding: 10px; }
+             .modal-image { max-height: calc(90vh - 20px); }
         }
 
     </style>
 </head>
 <body>
+    <!-- Main Form Container -->
     <div class="container">
         <h1>
             <i class="fa-solid fa-wand-magic-sparkles icon"></i> <!-- Cute wand icon! -->
@@ -332,31 +628,43 @@
             <input type="text" id="server_address" name="server_address" placeholder="Default: {{ default_server }}">
 
             <!-- Button uses the SAME onclick function -->
-            <button type="submit">
+            <button type="submit" id="generateButton">
                 <i class="fa-solid fa-rocket"></i> Generate Image!
             </button>
         </form>
 
         <!-- Status display -->
         <div id="status">
-             <i class="fa-solid fa-info-circle"></i> <!-- Default icon placeholder -->
+             <!-- Icon added via CSS ::before -->
              <span>Enter parameters and click Generate, Senpai! ( ´ ▽ ` )ﾉ</span>
         </div>
+    </div> <!-- End of form container -->
 
-        <!-- Gallery preview area -->
-        <div class="gallery-container">
-            <h3 class="gallery-title">
-                <i class="fa-solid fa-images"></i>
-                Generated Gallery (session only)
-            </h3>
-            <div class="gallery-grid" id="galleryGrid"></div>
-            <button type="button" class="clear-gallery" onclick="clearGallery()">
-                <i class="fa-solid fa-trash"></i>
-                Clear Gallery
+    <!-- Gallery Container -->
+    <div class="gallery-container">
+        <h3 class="gallery-title">
+            <i class="fa-solid fa-images"></i>
+            Generated Gallery (session only)
+        </h3>
+        <div class="gallery-grid" id="galleryGrid">
+            <!-- Gallery items will be injected here by JS -->
+        </div>
+        <button type="button" class="clear-gallery" id="clearGalleryButton">
+            <i class="fa-solid fa-trash"></i>
+            Clear Gallery
+        </button>
+    </div>
+
+    <!-- Image Modal (Lightbox) -->
+    <div class="modal-overlay" id="imageModal">
+        <div class="modal-content">
+            <img src="" alt="Full size generated image" class="modal-image" id="modalImage">
+            <button class="modal-close-btn" id="modalCloseBtn">
+                <i class="fa-solid fa-times"></i>
             </button>
         </div>
-
     </div>
+
 
     <!-- ☆*:.｡.o(≧▽≦)o.｡.:*☆ NO CHANGES TO JAVASCRIPT BELOW THIS LINE! ☆*:.｡.o(≧▽≦)o.｡.:*☆ -->
     <script>
@@ -364,31 +672,38 @@
         let statusCheckInterval = null;
         let consecutiveNetworkErrors = 0;
         const MAX_NETWORK_RETRIES = 5;
-        
+
         // Initialize gallery from sessionStorage
         let gallery = JSON.parse(sessionStorage.getItem('comfyui_gallery')) || [];
 
         const statusElement = document.getElementById('status');
         const statusTextElement = statusElement.querySelector('span');
-        const generateButton = document.querySelector('#generateForm button');
+        const generateButton = document.getElementById('generateButton'); // Use specific ID
         const galleryGrid = document.getElementById('galleryGrid');
+        const clearGalleryButton = document.getElementById('clearGalleryButton'); // Use specific ID
+
+        // --- NEW: Modal Elements ---
+        const imageModal = document.getElementById('imageModal');
+        const modalImage = document.getElementById('modalImage');
+        const modalCloseBtn = document.getElementById('modalCloseBtn');
 
         // Initialize gallery display
         updateGalleryDisplay();
-    
+
         // Helper function to update status with icon logic
         function updateStatus(message, type = 'info') {
             statusTextElement.textContent = message; // Update only the text part
             statusElement.className = type; // Set class for styling (info, success, error, loading)
         }
-    
+
         async function generateImage() {
             currentTaskId = null;
             consecutiveNetworkErrors = 0; // Reset error counter for new task
             updateStatus('Starting image generation... Getting ready! (๑˃̵ᴗ˂̵)و', 'loading'); // Use loading style
             generateButton.disabled = true; // Disable button during processing
             clearInterval(statusCheckInterval); // Clear any existing interval
-    
+            statusCheckInterval = null; // Explicitly nullify
+
             // Gather form data
             const positive_prompt = document.getElementById('positive_prompt').value;
             const negative_prompt = document.getElementById('negative_prompt').value;
@@ -398,7 +713,7 @@
             if (!server_address) {
                 server_address = null; // Send null if empty, so backend uses default
             }
-    
+
             const payload = {
                 positive_prompt,
                 negative_prompt,
@@ -406,7 +721,7 @@
                 height,
                 server_address
             };
-    
+
             try {
                 // Fetch paths should remain the same if your FastAPI routes are correct
                 const response = await fetch('/comfyui/generate', {
@@ -414,7 +729,7 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
-    
+
                 // Try to parse JSON regardless of response.ok to get potential error detail
                 let data;
                 try {
@@ -425,113 +740,152 @@
                     console.error("Failed to parse JSON response:", jsonError);
                     data = { detail: `Server returned status ${response.status} but response was not valid JSON.` };
                 }
-    
-    
+
+
                 if (!response.ok) {
                     // Display detail from HTTPException if available, or a fallback
                     updateStatus(`Error starting generation: ${data.detail || `Server error ${response.status}`}. Please try again! (｡•́︿•̀｡)`, 'error');
                     generateButton.disabled = false; // Re-enable button
                     return;
                 }
-    
+
                 currentTaskId = data.task_id;
                 if (!currentTaskId) {
                     updateStatus('Error: Server responded OK but did not provide a Task ID. Cannot track progress. (⊙_⊙)?', 'error');
                     generateButton.disabled = false;
                     return;
                 }
-    
+
                 updateStatus(`Generation started (Task ID: ${currentTaskId}). Checking status... Let's see... (づ｡◕‿‿◕｡)づ`, 'loading');
-    
+
                 // Start checking status immediately and then interval
-                await checkStatus(); // Initial check
-    
-                // Only set interval if the task didn't *already* complete or fail in the first check
-                // and if the interval wasn't cleared by checkStatus itself
-                if (statusCheckInterval !== null) { // Check if interval is still active (wasn't cleared by first check)
-                    // The interval might have been cleared if the first checkStatus found completion/failure
-                    // If interval is null here, it means checkStatus cleared it.
-                } else if (currentTaskId && document.getElementById('status').className.includes('loading')) {
-                     // If the task ID is valid and status is still loading (meaning it wasn't completed/failed on the first check)
-                     statusCheckInterval = setInterval(checkStatus, 3000); // Check every 3 seconds
-                     console.log(`Interval set for Task ID: ${currentTaskId}`);
-                } else {
-                    // If no task ID or status is no longer 'loading', ensure button is enabled
-                     generateButton.disabled = false;
-                     console.log(`Interval not set. Task ID: ${currentTaskId}, Status Class: ${document.getElementById('status').className}`);
-                }
-    
-    
+                // Use setTimeout for the first check to allow UI to update immediately
+                setTimeout(async () => {
+                   await checkStatus(); // Initial check
+
+                   // Only set interval if the task didn't *already* complete or fail in the first check
+                   // and the interval hasn't been cleared by checkStatus itself.
+                   // Check if `currentTaskId` is still set (not cleared by failure/completion)
+                   // and if the status is still 'loading'.
+                   if (currentTaskId && statusElement.className.includes('loading')) {
+                        // Clear any *previous* interval just in case (shouldn't be needed but safe)
+                        if (statusCheckInterval) clearInterval(statusCheckInterval);
+                        statusCheckInterval = setInterval(checkStatus, 3000); // Check every 3 seconds
+                        console.log(`Interval set for Task ID: ${currentTaskId}`);
+                   } else {
+                        // If the task completed/failed on the first check or currentTaskId got unset
+                        console.log(`Interval NOT set after first check. Task ID: ${currentTaskId}, Status Class: ${statusElement.className}`);
+                        if (!generateButton.disabled && statusElement.className !== 'loading') {
+                            // Ensure button is enabled if we're not loading anymore
+                            generateButton.disabled = false;
+                        }
+                   }
+                }, 100); // Short delay (100ms) before first check
+
+
             } catch (error) {
                 console.error("Error during generateImage fetch:", error);
                 updateStatus(`Network error during initial request: ${error.message}. Check connection? (＞﹏＜)`, 'error');
                 generateButton.disabled = false; // Re-enable button
+                 clearInterval(statusCheckInterval); // Ensure no interval runs
+                 statusCheckInterval = null;
             }
         }
 
         function updateGalleryDisplay() {
-            galleryGrid.innerHTML = '';
+            galleryGrid.innerHTML = ''; // Clear existing grid items
             gallery.forEach((item, index) => {
                 const wrapper = document.createElement('div');
                 wrapper.className = 'gallery-item';
+                wrapper.dataset.index = index; // Store index for modal click
+
                 wrapper.innerHTML = `
-                    <img src="${item.url}" class="gallery-image" alt="Generated image">
+                    <img src="${item.url}" class="gallery-image" alt="Generated image preview">
                     <div class="gallery-meta">${item.timestamp}<br>Task: ${item.taskId}</div>
-                    <button class="delete-btn" onclick="deleteGalleryItem(${index})">
+                    <button class="delete-btn" data-index="${index}">
                         <i class="fa-solid fa-times"></i>
                     </button>
                 `;
+
+                // Add click listener for modal *only* to the wrapper/image area
+                wrapper.addEventListener('click', (event) => {
+                    // Prevent modal opening if the delete button was clicked
+                    if (event.target.closest('.delete-btn')) {
+                        return;
+                    }
+                    openImageModal(index);
+                });
+
+                 // Add separate click listener for the delete button
+                 const deleteButton = wrapper.querySelector('.delete-btn');
+                 deleteButton.addEventListener('click', (event) => {
+                     event.stopPropagation(); // Prevent gallery item click event
+                     deleteGalleryItem(index);
+                 });
+
+
                 galleryGrid.appendChild(wrapper);
             });
         }
 
         function deleteGalleryItem(index) {
-            gallery.splice(index, 1);
-            sessionStorage.setItem('comfyui_gallery', JSON.stringify(gallery));
-            updateGalleryDisplay();
+            gallery.splice(index, 1); // Remove item from array
+            sessionStorage.setItem('comfyui_gallery', JSON.stringify(gallery)); // Update storage
+            updateGalleryDisplay(); // Redraw the gallery
         }
 
         function clearGallery() {
-            gallery = [];
-            sessionStorage.removeItem('comfyui_gallery');
-            updateGalleryDisplay();
+            gallery = []; // Clear the array
+            sessionStorage.removeItem('comfyui_gallery'); // Clear storage
+            updateGalleryDisplay(); // Redraw empty gallery
         }
-    
+
+        // --- NEW: Modal Functions ---
+        function openImageModal(index) {
+            if (index >= 0 && index < gallery.length) {
+                const item = gallery[index];
+                modalImage.src = item.url; // Set the image source for the modal
+                modalImage.alt = `Full size image from task ${item.taskId}`;
+                imageModal.classList.add('visible'); // Show the modal
+            }
+        }
+
+        function closeImageModal() {
+            imageModal.classList.remove('visible'); // Hide the modal
+            // Optional: Clear src to prevent showing old image briefly on next open
+            setTimeout(() => { modalImage.src = ''; }, 300); // Delay matches transition
+        }
+
         async function checkStatus() {
             if (!currentTaskId) {
                  console.warn("checkStatus called without currentTaskId.");
-                 // Should not happen if generateImage logic is correct, but safe to check
                  clearInterval(statusCheckInterval);
                  statusCheckInterval = null;
+                 // Ensure button is enabled if we stop checking for this reason
+                 if (statusElement.className !== 'loading') generateButton.disabled = false;
                 return;
             }
-    
+
             console.log(`Checking status for Task ID: ${currentTaskId}, Consecutive Errors: ${consecutiveNetworkErrors}`);
-    
+
             try {
-                // Use fetch to check status endpoint
                 const response = await fetch(`/comfyui/status/${currentTaskId}`);
-    
-                // ** Reset network error counter on successful communication **
-                consecutiveNetworkErrors = 0;
-    
-                // Handle non-JSON responses or server errors BEFORE trying to parse JSON
+                console.log(`AAAAAAAAAAAAAAAAAAAA ${response} AAAAAAAAAAAAAAAAAAAA`)
+                consecutiveNetworkErrors = 0; // ** Reset network error counter on successful communication **
+
                 if (!response.ok) {
-                    // If task not found (404), it might have finished very fast and been cleaned up,
-                    // or it never existed. Stop checking.
+                    let errorMsg = `Server returned ${response.status}`;
                     if (response.status === 404) {
-                        updateStatus(`Error: Task ID ${currentTaskId} not found. Maybe it finished super fast or there was an issue? Stopping checks. (・_・;)`, 'error');
-                    } else {
-                        // Other server errors during status check
-                        updateStatus(`Error checking status: Server returned ${response.status}. Stopping checks. (´･_･\`)`, 'error');
+                        errorMsg = `Task ID ${currentTaskId} not found. Maybe it finished super fast or there was an issue?`;
                     }
+                    updateStatus(`Error checking status: ${errorMsg}. Stopping checks. (´･_･\`)`, 'error');
                     clearInterval(statusCheckInterval);
                     statusCheckInterval = null;
-                    generateButton.disabled = false; // Re-enable button
-                    return; // Stop further processing for this check
+                    currentTaskId = null; // Task is gone or errored, stop associating with it
+                    generateButton.disabled = false;
+                    return;
                 }
-    
-                // --- Response is OK (2xx), now parse JSON ---
+
                 let data;
                 try {
                      data = await response.json();
@@ -541,103 +895,139 @@
                      updateStatus(`Error: Received OK status from server, but couldn't understand the response. Stopping checks. ( T ω T )`, 'error');
                      clearInterval(statusCheckInterval);
                      statusCheckInterval = null;
+                     currentTaskId = null; // Unset task ID as we can't track it anymore
                      generateButton.disabled = false;
                      return;
                 }
-    
-    
+
+
                 // --- Process the valid JSON data ---
+                 const statusTaskId = data.task_id || currentTaskId; // Use task_id from response if available
+
                 if (data.status === 'completed') {
                     clearInterval(statusCheckInterval);
                     statusCheckInterval = null;
-                    const completedTaskId = data.task_id || currentTaskId;
                     updateStatus(`Yay! Generated ${data.image_count} image(s)! Adding to gallery... (っ˘ω˘ς )`, 'success');
                     generateButton.disabled = false;
-    
-                    // Display the first image (index 0)
-                    if (data.image_count > 0 && completedTaskId) {
-                        const timestamp = new Date().toLocaleString();
-                        
-                        const imagePromises = Array.from({length: data.image_count}, (_, index) => {
-                            return new Promise((resolve) => {
-                                const img = new Image();
-                                img.onload = () => resolve({
-                                    url: `/comfyui/image/${completedTaskId}?index=${index}`,
-                                    timestamp: timestamp,
-                                    taskId: completedTaskId
-                                });
-                                img.onerror = () => resolve(null);
-                                img.src = `/comfyui/image/${completedTaskId}?index=${index}`;
-                            });
-                        });
 
-                        // Add this part to process the images
+                     if (data.image_count > 0 && statusTaskId) {
+                        const timestamp = new Date().toLocaleString();
+                        const imagePromises = [];
+
+                        for (let i = 0; i < data.image_count; i++) {
+                            imagePromises.push(
+                                new Promise((resolve) => {
+                                    const imageUrl = `/comfyui/image/${statusTaskId}?index=${i}`; // Add timestamp to prevent caching issues maybe?
+                                    const img = new Image();
+                                    img.onload = () => resolve({
+                                        url: imageUrl,
+                                        timestamp: timestamp,
+                                        taskId: statusTaskId
+                                    });
+                                    // If an image fails to load, resolve with null so Promise.all doesn't reject
+                                    img.onerror = () => {
+                                         console.error(`Failed to load image: ${imageUrl}`);
+                                         resolve(null);
+                                     };
+                                    img.src = imageUrl;
+                                })
+                            );
+                        }
+
                         Promise.all(imagePromises).then(images => {
-                            // Filter out images from this specific task that might already exist
-                            gallery = gallery.filter(existingImg => existingImg.taskId !== completedTaskId);
-                            
-                            // Now add all the new images from this task
-                            images.forEach(img => {
-                                if (img) {
-                                    gallery.push(img);
-                                }
-                            });
-                            
+                            const newImages = images.filter(img => img !== null); // Filter out failed loads
+
+                             // Remove any previous images from the *same completed task ID* before adding new ones
+                             // This prevents duplicates if checkStatus somehow runs again after completion
+                             gallery = gallery.filter(existingImg => existingImg.taskId !== statusTaskId);
+
+                            // Add the newly generated images to the front (most recent first!)
+                            gallery.unshift(...newImages);
+
                             sessionStorage.setItem('comfyui_gallery', JSON.stringify(gallery));
                             updateGalleryDisplay();
+                        }).catch(err => {
+                            console.error("Error loading images into gallery:", err);
+                            updateStatus(`Generated images, but couldn't load them all into the gallery. (｡•́︿•̀｡)`, 'warning');
                         });
 
-                    } else if (data.image_count > 0 && !completedTaskId) {
-                        updateStatus('Generation complete, but failed to confirm Task ID for image retrieval. (｡•́︿•̀｡)', 'error');
+                    } else if (data.image_count > 0 && !statusTaskId) {
+                        updateStatus(`Yay! Generated ${data.image_count} image(s)! Adding to gallery... (っ˘ω˘ς )`, 'success');
+                        //updateStatus('Generation complete, but failed to confirm Task ID for image retrieval. (｡•́︿•̀｡)', 'error');
                     } else {
-                        updateStatus('Generation complete, but no images were returned. Hmm... (￣ω￣;)', 'warning'); // Use warning maybe?
+                        updateStatus('Generation complete, but no images were returned. Hmm... (￣ω￣;)', 'warning');
                     }
-                    // Keep currentTaskId in case user wants to reference it
-    
+                    currentTaskId = null; // Task is complete, clear the current ID
+
                 } else if (data.status === 'failed') {
                     clearInterval(statusCheckInterval);
                     statusCheckInterval = null;
-                    updateStatus(`Oh no! Generation failed for Task ${currentTaskId}: ${data.error || 'Unknown error'} (｡>_<｡)`, 'error');
-                    generateButton.disabled = false; // Re-enable button
-    
+                    updateStatus(`Oh no! Generation failed for Task ${statusTaskId}: ${data.error || 'Unknown error'} (｡>_<｡)`, 'error');
+                    generateButton.disabled = false;
+                    currentTaskId = null; // Task failed, clear the ID
+
                 } else if (data.status === 'processing') {
-                    updateStatus(`Status: Processing... Hang tight, Senpai! (づ｡◕‿‿◕｡)づ (Task ID: ${currentTaskId})`, 'loading');
-                    // Keep polling, button remains disabled, interval continues
-    
+                    // Update status but keep polling
+                    let progressMsg = `Processing... Hang tight, Senpai! (づ｡◕‿‿◕｡)づ (Task ID: ${statusTaskId})`;
+                    if (data.progress && data.total_steps) {
+                        progressMsg += ` [${data.progress}/${data.total_steps}]`;
+                    }
+                    updateStatus(progressMsg, 'loading');
+                    // Button remains disabled, interval continues
+
                 } else {
                     // Handle unexpected statuses
-                    updateStatus(`Status: Unknown (${data.status}) for Task ${currentTaskId} - That's weird! Stopping checks. (o_O)`, 'error');
+                    updateStatus(`Status: Unknown (${data.status}) for Task ${statusTaskId} - That's weird! Stopping checks. (o_O)`, 'error');
                     clearInterval(statusCheckInterval);
                     statusCheckInterval = null;
                     generateButton.disabled = false;
+                    currentTaskId = null; // Unset task ID
                 }
             } catch (error) {
-                // Handle network errors during status check itself
                 consecutiveNetworkErrors++;
-                console.error(`Network error checking status (Attempt <span class="math-inline">\{consecutiveNetworkErrors\}/</span>{MAX_NETWORK_RETRIES}):`, error);
-    
+                console.error(`Network error checking status (Attempt ${consecutiveNetworkErrors}/${MAX_NETWORK_RETRIES}):`, error);
+
                 if (consecutiveNetworkErrors >= MAX_NETWORK_RETRIES) {
                     updateStatus(`Network error checking status for Task ${currentTaskId}: ${error.message}. Giving up after ${MAX_NETWORK_RETRIES} tries. (✖﹏✖)`, 'error');
                     clearInterval(statusCheckInterval);
                     statusCheckInterval = null;
                     generateButton.disabled = false; // Re-enable button as we stopped trying
+                    currentTaskId = null; // Assume task state is unknown/lost
                 } else {
-                    // Update status but keep trying
-                    updateStatus(`Network error checking status for Task ${currentTaskId}: <span class="math-inline">\{error\.message\}\. Trying again\.\.\. \(</span>{consecutiveNetworkErrors}/${MAX_NETWORK_RETRIES}) (＞人＜;)`, 'error');
-                     // Keep the 'error' class, but the message indicates a retry is happening.
-                     // Interval continues automatically.
+                    updateStatus(`Network error checking status for Task ${currentTaskId}: ${error.message}. Trying again... (${consecutiveNetworkErrors}/${MAX_NETWORK_RETRIES}) (＞人＜;)`, 'error');
+                     // Keep the 'error' class, but the message indicates a retry. Interval continues.
                 }
             }
         }
-    
-        // Optional: Add event listener to form to prevent default submission
+
+        // Event listener for form submission
         document.getElementById('generateForm').addEventListener('submit', function(event) {
             event.preventDefault(); // Prevent default form submission
             generateImage(); // Call our JS function instead
         });
-    
+
+        // Event listener for clearing the gallery
+        clearGalleryButton.addEventListener('click', clearGallery);
+
+        // --- NEW: Event listeners for Modal ---
+        modalCloseBtn.addEventListener('click', closeImageModal);
+        // Close modal if user clicks on the dark overlay background
+        imageModal.addEventListener('click', (event) => {
+            if (event.target === imageModal) { // Check if the click was directly on the overlay
+                closeImageModal();
+            }
+        });
+        // Close modal on Escape key press
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && imageModal.classList.contains('visible')) {
+                closeImageModal();
+            }
+        });
+
+
         // Initial status message on page load
         updateStatus('Enter parameters and click Generate, Senpai! Let\'s make something amazing! ( ´ ▽ ` )ﾉ', 'info');
+
     </script>
 </body>
 </html>

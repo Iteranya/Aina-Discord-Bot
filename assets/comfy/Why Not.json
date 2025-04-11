@@ -1,7 +1,7 @@
 {
   "3": {
     "inputs": {
-      "seed": 85166989711993,
+      "seed": 404873968013570,
       "steps": 28,
       "cfg": 7.0200000000000005,
       "sampler_name": "euler",
@@ -93,13 +93,13 @@
   },
   "11": {
     "inputs": {
-      "seed": 167985958172734,
+      "seed": 496266523589449,
       "steps": 20,
       "cfg": 7.0200000000000005,
       "sampler_name": "euler",
       "scheduler": "normal",
-      "upscale_by": 1.5,
-      "denoise": 0.5,
+      "upscale_by": 1.5000000000000002,
+      "denoise": 0.5000000000000001,
       "latent_upscaler": "lanczos",
       "pixel_upscaler": "4x-AnimeSharp.pth",
       "noise_mode": "GPU(=A1111)",
@@ -183,7 +183,7 @@
     "inputs": {
       "lora_name": "tachi-e.safetensors",
       "strength_model": 0,
-      "strength_clip": 1,
+      "strength_clip": 1.0000000000000002,
       "model": [
         "4",
         0
@@ -202,7 +202,7 @@
     "inputs": {
       "lora_name": "midjourney.JFP5.safetensors",
       "strength_model": 0.15000000000000002,
-      "strength_clip": 1,
+      "strength_clip": 1.0000000000000002,
       "model": [
         "24",
         0
@@ -221,7 +221,7 @@
     "inputs": {
       "lora_name": "msw_locon-t2.safetensors",
       "strength_model": 0.20000000000000004,
-      "strength_clip": 1,
+      "strength_clip": 1.0000000000000002,
       "model": [
         "22",
         0
@@ -240,7 +240,7 @@
     "inputs": {
       "lora_name": "gyokai.iQut.safetensors",
       "strength_model": 0.20000000000000004,
-      "strength_clip": 1,
+      "strength_clip": 1.0000000000000002,
       "model": [
         "25",
         0
@@ -259,7 +259,7 @@
     "inputs": {
       "lora_name": "Light and Shadow.safetensors",
       "strength_model": 0.30000000000000004,
-      "strength_clip": 1,
+      "strength_clip": 1.0000000000000002,
       "model": [
         "26",
         0
@@ -278,7 +278,7 @@
     "inputs": {
       "lora_name": "torinoAquaOffset.qbaL.safetensors",
       "strength_model": 0,
-      "strength_clip": 1,
+      "strength_clip": 1.0000000000000002,
       "model": [
         "27",
         0
@@ -297,7 +297,7 @@
     "inputs": {
       "lora_name": "animetarotV51.safetensors",
       "strength_model": 0,
-      "strength_clip": 1,
+      "strength_clip": 1.0000000000000002,
       "model": [
         "21",
         0
