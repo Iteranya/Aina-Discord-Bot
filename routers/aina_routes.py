@@ -2,17 +2,78 @@ import asyncio
 import json
 import uuid
 import re
-from fastapi import APIRouter, Form
+from fastapi import APIRouter, Form, Body, HTTPException
 from fastapi.responses import HTMLResponse, StreamingResponse
-
-from src.aina import generate_html_stream, active_generations
+from pathlib import Path
+from src.aina import generate_html_stream, active_generations, save_html, title_to_filename
 
 router = APIRouter()
 
+@router.post("/save-html")
+async def deploy_site(
+    content: str = Body(..., example="<html>...</html>"),
+    title: str = Body(..., example="my-page")
+):
+    try:
+        title = title_to_filename(title)
+        title = title+".html"
+        output_path = save_html(content, title)
+        return {"status": "success", "path": output_path}  # Return proper JSON!
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 @router.get("/site-builder", response_class=HTMLResponse)
 async def get_html():
-    with open("templates/website_builder.html", "r") as f:
-        return f.read()
+    # Path to template and scripts
+    template_path = "templates/site-builder/index.html"
+    scripts_dir = Path("templates/site-builder/scripts")
+    styles_dir = Path("templates/site-builder/styles")
+    # Get all JS files in order (adjust as needed)
+    css_files = sorted([
+        *styles_dir.glob("*.css")
+    ])
+    js_files = sorted([
+        *scripts_dir.glob("utils/*.js"),
+        *scripts_dir.glob("*.js"),
+        *scripts_dir.glob("services/*.js")
+    ])
+    
+    # Concatenate all JS content
+    js_content = []
+    for js_file in js_files:
+        if js_file.is_file() and js_file.suffix == ".js":
+            try:
+                with open(js_file, "r") as f:
+                    js_content.append(f"\n\n/* {js_file.name} */\n")
+                    js_content.append(f.read())
+            except Exception as e:
+                print(f"Error reading {js_file}: {str(e)}")
+    
+    css_content = []
+    for css_file in css_files:
+        if css_file.is_file() and css_file.suffix == ".css":
+            try:
+                with open(css_file, "r") as f:
+                    css_content.append(f"\n\n/* {js_file.name} */\n")
+                    css_content.append(f.read())
+            except Exception as e:
+                print(f"Error reading {css_file}: {str(e)}")
+    
+    # Read HTML template
+    with open(template_path, "r") as f:
+        html = f.read()
+    
+    html = html.replace(
+        '<script type="module" src="scripts/main.js"></script>',
+        '<script>\n' + '\n'.join(js_content) + '\n</script>'
+    )
+
+    html = html.replace(
+        '<link rel="stylesheet" href="styles.css">',
+        '<style>\n' + '\n'.join(css_content) + '\n</style>'
+    )
+    return html
 
 @router.post("/generate-website")
 async def generate_website(content: str = Form(...)):

@@ -20,6 +20,7 @@ def save_html(html_content, file_name):
         file.write(html_content)
     
     print(f"HTML successfully saved to {output_path}")
+    return output_path
 
 def process_website_request(title, content):
     """Process a website generation request - runs in a separate thread"""
@@ -34,6 +35,7 @@ def process_website_request(title, content):
         filename = title_to_filename(title)
         
         # Save the HTML file
+        filename = title_to_filename(filename)
         save_html(website_html, f"{filename}.html")
         
         print(f"Successfully processed website request: {title}")
