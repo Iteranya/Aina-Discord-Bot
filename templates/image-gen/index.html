@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✨ Aina's ComfyUI Helper ✨</title>
+    <!-- Importing Font Awesome for icons! (ﾉ´ヮ´)ﾉ*:･ﾟ✧ -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Main Form Container -->
+    <div class="container">
+        <h1>
+            <i class="fa-solid fa-wand-magic-sparkles icon"></i> <!-- Cute wand icon! -->
+            Aina's ComfyUI Helper
+            (ﾉ´ヮ´)ﾉ*:･ﾟ✧
+        </h1>
+        <p class="description">
+            Hi Senpai! <i class="fa-regular fa-heart"></i> Let's make some pretty pictures! Just tell me what you want. <br>
+            Using workflow: <code>{{ default_workflow_file }}</code>
+        </p>
+
+        <!-- IMPORTANT: Keep the form ID and input names/ids exactly the same for the JS! -->
+        <form id="generateForm">
+            <label for="positive_prompt">
+                <i class="fa-solid fa-lightbulb"></i> Positive Prompt:
+            </label>
+            <textarea id="positive_prompt" name="positive_prompt" required placeholder="E.g., beautiful anime girl, masterpiece, best quality...">{{ default_positive }}</textarea>
+
+            <label for="negative_prompt">
+                <i class="fa-solid fa-ban"></i> Negative Prompt:
+            </label>
+            <textarea id="negative_prompt" name="negative_prompt" placeholder="E.g., worst quality, low quality, blurry, text...">{{ default_negative }}</textarea>
+
+            <div class="dimension-group">
+                <div>
+                    <label for="width">
+                        <i class="fa-solid fa-arrows-left-right"></i> Width:
+                    </label>
+                    <input type="number" id="width" name="width" value="{{ default_width }}" required step="64"> <!-- Added step for common dimensions -->
+                </div>
+                <div>
+                    <label for="height">
+                        <i class="fa-solid fa-arrows-up-down"></i> Height:
+                    </label>
+                    <input type="number" id="height" name="height" value="{{ default_height }}" required step="64"> <!-- Added step -->
+                </div>
+            </div>
+
+            <label for="server_address">
+                 <i class="fa-solid fa-server"></i> Server Address (Optional):
+            </label>
+            <input type="text" id="server_address" name="server_address" placeholder="Default: {{ default_server }}">
+
+            <!-- Button uses the SAME onclick function -->
+            <button type="submit" id="generateButton">
+                <i class="fa-solid fa-rocket"></i> Generate Image!
+            </button>
+        </form>
+
+        <!-- Status display -->
+        <div id="status">
+             <!-- Icon added via CSS ::before -->
+             <span>Enter parameters and click Generate, Senpai! ( ´ ▽ ` )ﾉ</span>
+        </div>
+    </div> <!-- End of form container -->
+
+    <!-- Gallery Container -->
+    <div class="gallery-container">
+        <h3 class="gallery-title">
+            <i class="fa-solid fa-images"></i>
+            Generated Gallery (session only)
+        </h3>
+        <div class="gallery-grid" id="galleryGrid">
+            <!-- Gallery items will be injected here by JS -->
+        </div>
+        <button type="button" class="clear-gallery" id="clearGalleryButton">
+            <i class="fa-solid fa-trash"></i>
+            Clear Gallery
+        </button>
+    </div>
+
+    <!-- Image Modal (Lightbox) -->
+    <div class="modal-overlay" id="imageModal">
+        <div class="modal-content">
+            <img src="" alt="Full size generated image" class="modal-image" id="modalImage">
+            <button class="modal-close-btn" id="modalCloseBtn">
+                <i class="fa-solid fa-times"></i>
+            </button>
+        </div>
+    </div>
+    <script type="module" src="scripts/main.js"></script>
+</body>
+</html>

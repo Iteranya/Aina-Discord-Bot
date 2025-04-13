@@ -10,9 +10,9 @@ from routers import home_routes, comfyui_routes, aina_routes, config_routes
 app = FastAPI()
 
 # For static HTML tools
-app.mount("/sites/tools", StaticFiles(directory="sites/tools"), name="tools")
-app.mount("/sites/blogs", StaticFiles(directory="sites/blogs"), name="blogs")
-app.mount("/sites/drafts", StaticFiles(directory="sites/drafts"), name="drafts")
+app.mount("/tools", StaticFiles(directory="sites/tools"), name="tools")
+app.mount("/blogs", StaticFiles(directory="sites/blogs"), name="blogs")
+app.mount("/drafts", StaticFiles(directory="sites/drafts"), name="drafts")
 
 # For templates
 templates = Jinja2Templates(directory="templates")

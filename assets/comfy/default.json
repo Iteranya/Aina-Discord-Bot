@@ -1,7 +1,7 @@
 {
   "3": {
     "inputs": {
-      "seed": 85166989711993,
+      "seed": 343801973590519,
       "steps": 28,
       "cfg": 7.0200000000000005,
       "sampler_name": "euler",
@@ -51,7 +51,7 @@
   },
   "6": {
     "inputs": {
-      "text": "1girl",
+      "text": "1girl, nsfw",
       "clip": [
         "23",
         1
@@ -64,7 +64,7 @@
   },
   "7": {
     "inputs": {
-      "text": "lowres, bad anatomy, bad hands, text, error, missing finger, extra digits, fewer digits, cropped, worst quality, low quality, low score, bad score, average score, signature, watermark, username, blurry, embedding:easynegative, embedding:badhandv4",
+      "text": "lowres, bad anatomy, bad hands, text, error, missing finger, extra digits, fewer digits, cropped, worst quality, low quality, low score, bad score, average score, signature, watermark, username, blurry, embedding:easynegative, embedding:badhandv4, (worst quality, low quality:1.4), monochrome, zombie, (interlocked fingers:1.2)",
       "clip": [
         "23",
         1
@@ -93,13 +93,13 @@
   },
   "11": {
     "inputs": {
-      "seed": 167985958172734,
+      "seed": 453516238626733,
       "steps": 20,
       "cfg": 7.0200000000000005,
       "sampler_name": "euler",
       "scheduler": "normal",
-      "upscale_by": 1.5,
-      "denoise": 0.5,
+      "upscale_by": 1.5000000000000002,
+      "denoise": 0.5000000000000001,
       "latent_upscaler": "lanczos",
       "pixel_upscaler": "4x-AnimeSharp.pth",
       "noise_mode": "GPU(=A1111)",
@@ -183,7 +183,7 @@
     "inputs": {
       "lora_name": "tachi-e.safetensors",
       "strength_model": 0,
-      "strength_clip": 1,
+      "strength_clip": 0,
       "model": [
         "4",
         0
@@ -202,7 +202,7 @@
     "inputs": {
       "lora_name": "midjourney.JFP5.safetensors",
       "strength_model": 0.15000000000000002,
-      "strength_clip": 1,
+      "strength_clip": 0,
       "model": [
         "24",
         0
@@ -221,7 +221,7 @@
     "inputs": {
       "lora_name": "msw_locon-t2.safetensors",
       "strength_model": 0.20000000000000004,
-      "strength_clip": 1,
+      "strength_clip": 0,
       "model": [
         "22",
         0
@@ -240,7 +240,7 @@
     "inputs": {
       "lora_name": "gyokai.iQut.safetensors",
       "strength_model": 0.20000000000000004,
-      "strength_clip": 1,
+      "strength_clip": 0,
       "model": [
         "25",
         0
@@ -258,8 +258,8 @@
   "25": {
     "inputs": {
       "lora_name": "Light and Shadow.safetensors",
-      "strength_model": 0.30000000000000004,
-      "strength_clip": 1,
+      "strength_model": 0,
+      "strength_clip": 0,
       "model": [
         "26",
         0
@@ -278,7 +278,7 @@
     "inputs": {
       "lora_name": "torinoAquaOffset.qbaL.safetensors",
       "strength_model": 0,
-      "strength_clip": 1,
+      "strength_clip": 0,
       "model": [
         "27",
         0
@@ -297,7 +297,7 @@
     "inputs": {
       "lora_name": "animetarotV51.safetensors",
       "strength_model": 0,
-      "strength_clip": 1,
+      "strength_clip": 0,
       "model": [
         "21",
         0

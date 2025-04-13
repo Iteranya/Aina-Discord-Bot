@@ -18,19 +18,19 @@ async def home(request: Request):
     for file in tools_dir.glob("*.html"):
         tool_files.append({
             "name": file.stem.replace("-", " ").title(),
-            "url": f"/sites/tools/{file.name}"
+            "url": f"/tools/{file.name}"
         })
     
     for file in blogs_dir.glob("*.html"):
         blog_files.append({
             "name": file.stem.replace("-", " ").title(),
-            "url": f"/sites/blogs/{file.name}"
+            "url": f"/blogs/{file.name}"
         })
 
     for file in drafts_dir.glob("*.html"):
         draft_files.append({
             "name": file.stem.replace("-", " ").title(),
-            "url": f"/sites/drafts/{file.name}"
+            "url": f"/drafts/{file.name}"
         })
 
     return templates.TemplateResponse("index.html", {
