@@ -24,7 +24,7 @@ Now featuring full Discord integration, Aina brings its website creation powers 
 - **Create From Discord**: Generate websites directly in your Discord server
 - **HTML Hosting**: Upload your own HTML files for instant hosting
 - **Browsable Gallery**: View all created websites through an easy-to-use gallery
-- **Persistent Tunneling**: Access your websites anytime with permanent URLs
+- **Persistent Tunneling**: Access your websites anytime with temporary URL! (Use Discord to Generate New Tunnel~)
 
 ## 🚀 Getting Started
 
