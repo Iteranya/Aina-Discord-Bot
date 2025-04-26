@@ -16,7 +16,7 @@ class FlareTunnel:
 # File to store tunnel information
 TUNNEL_INFO_FILE = 'aina_tunnel_info.json'
 TUNNEL_NAME = "AinaService"  # Hardcoded name
-LOCALHOST_PORT = "http://localhost:5454"  # Hardcoded port
+LOCALHOST_PORT = "http://127.0.0.1:5454"  # Hardcoded port
 
 async def create_cloudflare_tunnel(channel):
     """Create a Cloudflare tunnel for port 5454"""
